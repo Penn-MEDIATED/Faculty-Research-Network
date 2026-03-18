@@ -81,7 +81,7 @@
 
     /* ── LEFT COLUMN (paper detail) ─────────── */
     #left-col {
-      width: 290px; flex-shrink: 0;
+      width: 320px; flex-shrink: 0;
       display: flex; flex-direction: column;
       background: #fafaf8;
       border-right: 1px solid var(--border);
@@ -218,9 +218,8 @@
 
     /* faculty bio box — top of left column */
     #faculty-bio {
-      flex-shrink: 0;
+      flex: 1;
       overflow-y: auto;
-      max-height: 52%;
       background: white;
       border-left: 3px solid var(--navy);
       border-bottom: 1.5px solid var(--border);
@@ -228,8 +227,22 @@
       padding: 16px 18px 18px;
       box-shadow: 0 6px 22px rgba(1,31,91,.08);
       display: none;
+      flex-direction: column;
     }
-    #faculty-bio.visible { display: block; }
+    #faculty-bio.visible { display: flex; }
+    #fb-header {
+      display: flex; align-items: flex-start;
+      gap: 12px; margin-bottom: 12px; flex-shrink: 0;
+    }
+    #fb-photo {
+      width: 72px; height: 72px;
+      object-fit: cover; object-position: top;
+      border-radius: 4px; flex-shrink: 0;
+      display: none;
+      border: 1px solid var(--border);
+    }
+    #fb-photo.visible { display: block; }
+    #fb-meta { flex: 1; min-width: 0; }
     #fb-name {
       font-family: 'Merriweather Sans', sans-serif;
       font-weight: 700; font-size: 15px; color: var(--navy);
@@ -238,12 +251,12 @@
     #fb-school {
       font-family: 'Merriweather', Georgia, serif;
       font-size: 12px; font-weight: 300; font-style: italic;
-      color: #94a3b8; margin-bottom: 10px;
+      color: #94a3b8; margin-bottom: 0;
     }
     #fb-bio {
       font-family: 'Merriweather', Georgia, serif;
       font-size: 12px; font-weight: 300; color: var(--text);
-      line-height: 1.75; margin: 0;
+      line-height: 1.75; margin: 0; flex: 1;
     }
 
     /* standalone paper detail box — bottom of left column */
@@ -290,8 +303,9 @@
   <!-- HEADER -->
   <div id="hdr">
     <div id="hdr-left">
-      <h1>Faculty Research Network</h1>
-      <p class="hdr-desc">Penn MEDIATED faculty study the actors that shape the information landscape — from governments and news media to social platforms, AI systems, and elites. Hover an arrow to explore a paper; click an actor icon to see who studies it.</p>
+      <h1>Penn MEDIATED's Affiliated Faculty</h1>
+      <p class="hdr-desc">Penn MEDIATED's 24 affiliated faculty are distinguished by their rigorous empirical and computational research that advances our collective understanding of the information ecosystem.</p>
+      <p class="hdr-desc">Explore the visualization below to see how our faculty study the actors that shape the information landscape—the media organizations, technology platforms, governments, elites, and everyday people.</p>
     </div>
     <div class="newsletter-box">
       <h3>Center Newsletter</h3>
@@ -305,13 +319,16 @@
     <!-- LEFT COLUMN: faculty bio (top) + paper detail (bottom) -->
     <div id="left-col">
       <div id="faculty-bio">
-        <div id="fb-name"></div>
-        <div id="fb-school"></div>
+        <div id="fb-header">
+          <img id="fb-photo" src="" alt="">
+          <div id="fb-meta">
+            <div id="fb-name"></div>
+            <div id="fb-school"></div>
+          </div>
+        </div>
         <p id="fb-bio"></p>
       </div>
       <div id="paper-detail">
-        <div id="pd-faculty"></div>
-        <div id="pd-school"></div>
         <p id="pd-desc"></p>
       </div>
     </div>
@@ -635,6 +652,34 @@
     culhane:       'Dennis Culhane is the Dana and Andrew Stone Professor of Social Policy at the School of Social Policy and Practice as well as Co-founder and Faculty Director of the Actionable Intelligence for Social Policy (AISP). He is a highly regarded expert in developing critical data infrastructure, and his work has resulted in federal legislation requiring all cities and states to develop administrative data systems. Dennis has recently written on the role of legislation and executive action in promoting cross-agency data sharing for public good.'
   };
 
+  /* ── faculty headshot photos ────────────────────── */
+  var PHOTOS = {
+    miller:        'Affiliated%20Faculty%20Photos/bwnb%20Blake%20Miller.png',
+    callisonburch: 'Affiliated%20Faculty%20Photos/bwnb%20Callison-Burch-Chris.png',
+    freelon:       'Affiliated%20Faculty%20Photos/bwnb%20Deen%20Freelon.png',
+    culhane:       'Affiliated%20Faculty%20Photos/bwnb%20Dennis-Culhane-Fellow.png',
+    mutz:          'Affiliated%20Faculty%20Photos/bwnb%20Diana-Mutz.png',
+    falk:          'Affiliated%20Faculty%20Photos/bwnb%20EmilyFalk.png',
+    santoro:       'Affiliated%20Faculty%20Photos/bwnb%20Eric%20Santoro.png',
+    lapinski:      'Affiliated%20Faculty%20Photos/bwnb%20John_Lapinski.png',
+    levendusky:    'Affiliated%20Faculty%20Photos/bwnb%20Matthew_Levendusky.png',
+    morse:         'Affiliated%20Faculty%20Photos/bwnb%20Michael%20Morse.png',
+    roth:          'Affiliated%20Faculty%20Photos/bwnb%20Roth-Dan.png',
+    melumad:       'Affiliated%20Faculty%20Photos/bwnb%20Shiri-Melumad.png',
+    ungar:         'Affiliated%20Faculty%20Photos/bwnb%20ungar-lyle.png',
+    yildirim:      'Affiliated%20Faculty%20Photos/bwnb%20yildirim-pinar.png',
+    knox:          'Affiliated%20Faculty%20Photos/bwnbDean_Knox.png',
+    albarracin:    'Affiliated%20Faculty%20Photos/bwnbDolores_Albarracin.png',
+    yoo:           'Affiliated%20Faculty%20Photos/ChrsitopherYoo.png',
+    hopkins:       'Affiliated%20Faculty%20Photos/DanHopkins.png',
+    metaxa:        'Affiliated%20Faculty%20Photos/DanaeMetaxa.png',
+    patton:        'Affiliated%20Faculty%20Photos/DesmondPatton.png',
+    watts:         'Affiliated%20Faculty%20Photos/DuncanWatts.png',
+    halljamieson:  'Affiliated%20Faculty%20Photos/KathleenHallJamieson.png',
+    gonzalezbailon:'Affiliated%20Faculty%20Photos/SandraGonzalez-Bailon.png',
+    lelkes:        'Affiliated%20Faculty%20Photos/YphtachLelkes.png'
+  };
+
   /* ── faculty without research papers on diagram ─ */
   var FACULTY_ONLY = [
     { id: 'yoo',          name: 'Christopher Yoo',        school: 'Penn Carey Law School' },
@@ -647,6 +692,14 @@
     { id: 'knox',         name: 'Dean Knox',              school: 'Wharton School' },
     { id: 'morse',        name: 'Michael Morse',          school: 'Penn Carey Law School' },
     { id: 'culhane',      name: 'Dennis Culhane',         school: 'School of Social Policy & Practice' }
+  ];
+
+  /* ── custom card display order ──────────────── */
+  var CARD_ORDER = [
+    'watts','yoo','lelkes','halljamieson','gonzalezbailon','hopkins',
+    'patton','metaxa','albarracin','levendusky','freelon','yildirim',
+    'falk','santoro','mutz','callisonburch','ungar','knox',
+    'miller','lapinski','melumad','morse','roth','culhane'
   ];
 
   /* ── helpers ─────────────────────────────────── */
@@ -763,6 +816,16 @@
     document.getElementById('fb-name').textContent   = name;
     document.getElementById('fb-school').textContent = school;
     document.getElementById('fb-bio').textContent    = bio;
+    var photoEl = document.getElementById('fb-photo');
+    var photoSrc = PHOTOS[id];
+    if (photoSrc) {
+      photoEl.src = photoSrc;
+      photoEl.alt = name;
+      photoEl.classList.add('visible');
+    } else {
+      photoEl.src = '';
+      photoEl.classList.remove('visible');
+    }
     document.getElementById('faculty-bio').classList.add('visible');
   }
 
@@ -771,8 +834,6 @@
     var p = null;
     for (var k = 0; k < PAPERS.length; k++) { if (PAPERS[k].id === id) { p = PAPERS[k]; break; } }
     if (!p) return;
-    document.getElementById('pd-faculty').textContent = p.faculty;
-    document.getElementById('pd-school').textContent  = p.school;
     var desc = document.getElementById('pd-desc');
     desc.innerHTML = esc(p.before) +
       '<a href="' + p.link + '" target="_blank" rel="noopener noreferrer">' +
