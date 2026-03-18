@@ -35,8 +35,27 @@
       background: #fff;
       border-bottom: 2px solid var(--navy);
       padding: 15px 28px 13px;
+      display: flex; align-items: flex-start;
+      gap: 28px; justify-content: space-between;
     }
-    #hdr-left { min-width: 0; }
+    #hdr-left { min-width: 0; flex: 1; }
+
+    /* newsletter box — matches Research Compendium exactly */
+    .newsletter-box { flex-shrink: 0; width: 224px; }
+    .newsletter-box h3 {
+      font-family: 'Merriweather Sans', Arial, sans-serif;
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .7px; color: var(--navy);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px; margin-bottom: 11px;
+    }
+    .newsletter-box p, .newsletter-box li {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 14.5px; font-weight: 300;
+      color: var(--text); line-height: 1.8;
+    }
+    .newsletter-box a { color: var(--link); text-decoration: none; }
+    .newsletter-box a:hover { text-decoration: underline; color: var(--navy); }
     .hdr-eyebrow {
       font-size: 10px; font-weight: 600; text-transform: uppercase;
       letter-spacing: 3.5px; color: var(--navy); margin-bottom: 6px;
@@ -60,11 +79,19 @@
       display: flex; overflow: hidden;
     }
 
+    /* ── LEFT COLUMN (paper detail) ─────────── */
+    #left-col {
+      width: 290px; flex-shrink: 0;
+      display: flex; flex-direction: column;
+      background: #fafaf8;
+      border-right: 1px solid var(--border);
+    }
+
     /* ── SVG AREA ────────────────────────────── */
     #svg-area {
-      flex: 1; min-width: 0; position: relative;
+      flex: 1; min-width: 0;
       display: flex; align-items: center; justify-content: center;
-      padding: 10px 6px 6px 10px;
+      padding: 10px 6px 6px 6px;
       background: #fafaf8;
     }
     #svg-wrap { width: 100%; max-width: 860px; }
@@ -188,21 +215,19 @@
     /* never expand card body inline */
     .paper-card.active .card-body { display: none; }
 
-    /* standalone paper detail box */
+    /* standalone paper detail box — bottom of left column */
     #paper-detail {
-      position: absolute;
-      bottom: 18px; left: 18px;
-      width: 320px;
+      margin-top: auto;          /* pushes to bottom of flex column */
+      height: 40vh;
+      overflow-y: auto;
       background: white;
-      border-radius: 9px;
       border-left: 3px solid var(--orange);
       border-top: 1.5px solid var(--border);
-      border-right: 1.5px solid var(--border);
-      border-bottom: 1.5px solid var(--border);
-      padding: 12px 15px 13px;
-      box-shadow: 0 4px 22px rgba(1,31,91,.11);
-      display: none; z-index: 10;
-      pointer-events: none;
+      border-right: none;
+      border-bottom: none;
+      padding: 16px 18px 20px;
+      box-shadow: 0 -6px 22px rgba(1,31,91,.08);
+      display: none;
     }
     #paper-detail.visible { display: block; }
     #pd-faculty {
@@ -223,7 +248,6 @@
     #pd-desc a {
       color: var(--link); font-weight: 700;
       text-decoration: underline; text-underline-offset: 2px;
-      pointer-events: auto;
     }
 
   </style>
@@ -237,21 +261,29 @@
     <div id="hdr-left">
       <div class="hdr-eyebrow">Penn MEDIATED</div>
       <h1>Faculty Research Network</h1>
-<p class="hdr-desc">Penn MEDIATED faculty study the actors that shape the information landscape — from governments and news media to social platforms, AI systems, and elites. Hover an arrow to explore a paper; click an actor icon to see who studies it.</p>
+      <p class="hdr-desc">Penn MEDIATED faculty study the actors that shape the information landscape — from governments and news media to social platforms, AI systems, and elites. Hover an arrow to explore a paper; click an actor icon to see who studies it.</p>
+    </div>
+    <div class="newsletter-box">
+      <h3>Center Newsletter</h3>
+      <p><a href="https://signup.e2ma.net/signup/2017639/1984707/" target="_blank" rel="noopener noreferrer">Subscribe</a> to our (occasional) newsletter for updates with the latest research, events, and announcements from the Center.</p>
     </div>
   </div>
 
   <!-- MAIN -->
   <div id="main">
 
-    <!-- DIAGRAM -->
-    <div id="svg-area">
-      <div id="svg-wrap"></div>
+    <!-- LEFT COLUMN: paper detail -->
+    <div id="left-col">
       <div id="paper-detail">
         <div id="pd-faculty"></div>
         <div id="pd-school"></div>
         <p id="pd-desc"></p>
       </div>
+    </div>
+
+    <!-- DIAGRAM -->
+    <div id="svg-area">
+      <div id="svg-wrap"></div>
     </div>
 
     <!-- RIGHT PANEL -->
@@ -313,7 +345,7 @@
       id: 'elites',
       label: ['Elites'],
       color: '#6d28d9',
-      cx: 760, cy: 185,
+      cx: 295, cy: 175,
       faculty: 'Levendusky, Mutz, Hopkins, Knox, Gutmann, Lapinski, Yildirim',
       desc: 'Politicians, political parties, business leaders, and other high-influence actors. Set agendas and shape the information environment through their visibility and power.',
       icon: '<path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>'
@@ -338,7 +370,7 @@
     { x: 210, y: 225, size: 21, op: 0.65 },
     { x: 175, y: 400, size: 36, op: 1.00 },
     { x: 610, y: 155, size: 29, op: 0.85 },
-    { x: 695, y: 220, size: 22, op: 0.70 },
+    { x: 335, y: 138, size: 22, op: 0.70 },
     { x: 590, y: 450, size: 34, op: 0.92 },
     { x: 305, y: 490, size: 27, op: 0.82 },
     { x: 540, y: 460, size: 29, op: 0.88 },
@@ -392,7 +424,7 @@
     {
       id: 'metaxa',
       paths: [
-        'M 686,227 Q 650,255 622,278'
+        'M 345,144 Q 461,212 576,281'
       ],
       bidir: false,
       faculty: 'Dana\u00e9 Metaxa',
@@ -502,7 +534,7 @@
     },
     {
       id: 'yildirim',
-      paths: ['M 732,190 Q 450,225 168,290'],
+      paths: ['M 273,192 Q 212,234 162,277'],
       bidir: true,
       faculty: 'Pinar Yildirim',
       school: 'Wharton School',
@@ -625,6 +657,8 @@
   var selectedActor = null;
   var hoveredArrow  = null;
   var hoveredCard   = null;
+  var hoveredDetail = null;   // mouse is over the detail panel
+  var activeDetail  = null;   // which paper id is currently in the detail panel
 
   document.getElementById('svg-wrap').innerHTML = buildSVG();
 
@@ -633,6 +667,7 @@
     var p = null;
     for (var k = 0; k < PAPERS.length; k++) { if (PAPERS[k].id === id) { p = PAPERS[k]; break; } }
     if (!p) return;
+    activeDetail = id;
     var box = document.getElementById('paper-detail');
     document.getElementById('pd-faculty').textContent = p.faculty;
     document.getElementById('pd-school').textContent  = p.school;
@@ -644,6 +679,7 @@
   }
 
   function hideDetail() {
+    activeDetail = null;
     document.getElementById('paper-detail').classList.remove('visible');
   }
 
@@ -662,6 +698,8 @@
   }
 
   function deactivatePaper(id) {
+    /* keep active while the mouse is over the detail panel */
+    if (hoveredDetail === id) return;
     var card = document.getElementById('card-' + id);
     if (card) card.classList.remove('active');
     document.querySelectorAll('[id^="av-' + id + '-"]').forEach(function (vis) {
@@ -674,6 +712,17 @@
     });
     hideDetail();
   }
+
+  /* ── detail panel hover ──────────────────────── */
+  var detailBox = document.getElementById('paper-detail');
+  detailBox.addEventListener('mouseenter', function () {
+    hoveredDetail = activeDetail;
+  });
+  detailBox.addEventListener('mouseleave', function () {
+    var id = hoveredDetail;
+    hoveredDetail = null;
+    if (id && hoveredArrow !== id && hoveredCard !== id) deactivatePaper(id);
+  });
 
   /* ── render paper cards ──────────────────────── */
   function renderPaperCards() {
