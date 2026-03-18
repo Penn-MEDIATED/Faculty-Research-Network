@@ -290,7 +290,6 @@
   <!-- HEADER -->
   <div id="hdr">
     <div id="hdr-left">
-      <div class="hdr-eyebrow">Penn MEDIATED</div>
       <h1>Faculty Research Network</h1>
       <p class="hdr-desc">Penn MEDIATED faculty study the actors that shape the information landscape — from governments and news media to social platforms, AI systems, and elites. Hover an arrow to explore a paper; click an actor icon to see who studies it.</p>
     </div>
@@ -329,7 +328,7 @@
         <span class="panel-head-sub">hover to explore</span>
       </div>
       <div id="actor-card"></div>
-      <div id="panel-hint">Hover a dashed arrow to see a paper summary, or click an actor icon for details.</div>
+      <div id="panel-hint">Hover over a faculty name or a part of the network to see relevant research.</div>
       <div id="paper-cards"></div>
     </div>
 
@@ -421,6 +420,21 @@
   ];
 
   var PAPERS = [
+    {
+      id: 'watts',
+      paths: [
+        'M 129,321 Q 100,383 81,441',
+        'M 130,269 Q 108,222 95,177',
+        'M 154,271 Q 210,168 262,79'
+      ],
+      bidir: false,
+      faculty: 'Duncan Watts',
+      school: 'Computer and Information Science',
+      link: 'https://www.nature.com/articles/s41598-025-01046-7',
+      linkText: 'increasingly diverged from broadcast news',
+      before: 'Watts and colleagues analyze 13 million TV news segments to show that cable news has ',
+      after: ' in topic selection and language since 2012 \u2014 driven more by changes in hard news coverage than opinion content.'
+    },
     {
       id: 'santoro',
       paths: ['M 363,520 Q 400,534 434,520'],
@@ -525,21 +539,6 @@
       linkText: 'more platforms produce less aggregate news attention',
       before: 'Yang and Gonz\u00e1lez-Bail\u00f3n track news exposure across TV, web, and YouTube for 55,000 Americans, finding that ',
       after: ' \u2014 a committed minority of news followers account for most traffic, while a multi-platform environment widens the gap between news consumers and avoiders.'
-    },
-    {
-      id: 'watts',
-      paths: [
-        'M 129,321 Q 100,383 81,441',
-        'M 130,269 Q 108,222 95,177',
-        'M 154,271 Q 210,168 262,79'
-      ],
-      bidir: false,
-      faculty: 'Duncan Watts',
-      school: 'Computer and Information Science',
-      link: 'https://www.nature.com/articles/s41598-025-01046-7',
-      linkText: 'increasingly diverged from broadcast news',
-      before: 'Watts and colleagues analyze 13 million TV news segments to show that cable news has ',
-      after: ' in topic selection and language since 2012 \u2014 driven more by changes in hard news coverage than opinion content.'
     },
     {
       id: 'hopkins',
@@ -939,6 +938,7 @@
   /* ── init ────────────────────────────────────── */
   renderPaperCards();
   renderActorCard();
+  activatePaper('watts');
 
 })();
 </script>
