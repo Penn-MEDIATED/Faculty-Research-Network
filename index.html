@@ -427,12 +427,10 @@
     { x: 540, y: 460, size: 29, op: 0.88 },
     { x: 465, y: 435, size: 24, op: 0.72 },
     { x: 510, y: 195, size: 24, op: 0.75 },
-    { x: 350, y: 520, size: 26, op: 0.78 },
-    { x: 445, y: 520, size: 22, op: 0.68 },
     { x: 62,  y: 215, size: 22, op: 0.68 },
     { x: 58,  y: 370, size: 26, op: 0.78 },
-    { x: 835, y: 240, size: 22, op: 0.70 },
-    { x: 820, y: 420, size: 25, op: 0.78 }
+    { x: 718, y: 268, size: 22, op: 0.70 },
+    { x: 710, y: 358, size: 25, op: 0.78 }
   ];
 
   var PAPERS = [
@@ -453,7 +451,7 @@
     },
     {
       id: 'santoro',
-      paths: ['M 363,520 Q 400,534 434,520'],
+      paths: ['M 315,486 Q 385,462 455,439'],
       bidir: false,
       faculty: 'Erik Santoro',
       school: 'Wharton School',
@@ -611,8 +609,8 @@
     {
       id: 'patton',
       paths: [
-        'M 627,289 Q 730,265 824,243',
-        'M 624,309 Q 715,365 810,414'
+        'M 627,289 Q 667,275 707,271',
+        'M 624,309 Q 662,333 700,353'
       ],
       bidir: false,
       faculty: 'Desmond Patton',
@@ -879,26 +877,33 @@
 
   /* ── render paper cards + faculty-only cards ──── */
   function renderPaperCards() {
+    /* build lookup maps for fast access */
+    var paperMap = {};
+    PAPERS.forEach(function (p) { paperMap[p.id] = p; });
+    var facultyMap = {};
+    FACULTY_ONLY.forEach(function (f) { facultyMap[f.id] = f; });
+
     var html = '';
-
-    /* paper cards */
-    PAPERS.forEach(function (p) {
-      html += '<div class="paper-card" id="card-' + p.id + '" data-paper="' + p.id + '">';
-      html += '<div class="card-name">' + esc(p.faculty) + '</div>';
-      html += '<div class="card-school">' + esc(p.school) + '</div>';
-      html += '<div class="card-body">';
-      html += '<p class="card-desc">' + esc(p.before) +
-              '<a href="' + p.link + '" target="_blank" rel="noopener noreferrer">' +
-              esc(p.linkText) + '</a>' + esc(p.after) + '</p>';
-      html += '</div></div>';
-    });
-
-    /* faculty-only cards (no arrows on diagram) */
-    FACULTY_ONLY.forEach(function (f) {
-      html += '<div class="paper-card faculty-card" id="fcard-' + f.id + '" data-faculty="' + f.id + '">';
-      html += '<div class="card-name">' + esc(f.name) + '</div>';
-      html += '<div class="card-school">' + esc(f.school) + '</div>';
-      html += '</div>';
+    CARD_ORDER.forEach(function (id) {
+      var p = paperMap[id];
+      if (p) {
+        html += '<div class="paper-card" id="card-' + p.id + '" data-paper="' + p.id + '">';
+        html += '<div class="card-name">' + esc(p.faculty) + '</div>';
+        html += '<div class="card-school">' + esc(p.school) + '</div>';
+        html += '<div class="card-body">';
+        html += '<p class="card-desc">' + esc(p.before) +
+                '<a href="' + p.link + '" target="_blank" rel="noopener noreferrer">' +
+                esc(p.linkText) + '</a>' + esc(p.after) + '</p>';
+        html += '</div></div>';
+      } else {
+        var f = facultyMap[id];
+        if (f) {
+          html += '<div class="paper-card faculty-card" id="fcard-' + f.id + '" data-faculty="' + f.id + '">';
+          html += '<div class="card-name">' + esc(f.name) + '</div>';
+          html += '<div class="card-school">' + esc(f.school) + '</div>';
+          html += '</div>';
+        }
+      }
     });
 
     document.getElementById('paper-cards').innerHTML = html;
