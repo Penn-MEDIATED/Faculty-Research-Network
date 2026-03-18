@@ -99,7 +99,7 @@
 
     /* ── RIGHT PANEL ─────────────────────────── */
     #panel {
-      width: 284px; flex-shrink: 0;
+      width: 360px; flex-shrink: 0;
       display: flex; flex-direction: column;
       background: white; border-left: 1px solid var(--border);
       overflow: hidden;
@@ -169,7 +169,7 @@
     /* paper cards list */
     #paper-cards {
       flex: 1; overflow-y: auto; padding: 6px 10px 8px;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;
       align-content: start;
     }
     #paper-cards::-webkit-scrollbar { width: 3px; }
@@ -177,7 +177,7 @@
 
     .paper-card {
       border-radius: 6px; border: 1.5px solid var(--border);
-      padding: 7px 10px; cursor: pointer;
+      padding: 6px 8px; cursor: pointer;
       background: white;
       transition: border-color .13s, box-shadow .13s, background .13s;
     }
@@ -214,6 +214,36 @@
 
     /* never expand card body inline */
     .paper-card.active .card-body { display: none; }
+
+    /* faculty bio box — top of left column */
+    #faculty-bio {
+      flex-shrink: 0;
+      overflow-y: auto;
+      max-height: 52%;
+      background: white;
+      border-left: 3px solid var(--navy);
+      border-bottom: 1.5px solid var(--border);
+      border-top: none; border-right: none;
+      padding: 16px 18px 18px;
+      box-shadow: 0 6px 22px rgba(1,31,91,.08);
+      display: none;
+    }
+    #faculty-bio.visible { display: block; }
+    #fb-name {
+      font-family: 'Merriweather Sans', sans-serif;
+      font-weight: 700; font-size: 15px; color: var(--navy);
+      margin-bottom: 2px; line-height: 1.3;
+    }
+    #fb-school {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 12px; font-weight: 300; font-style: italic;
+      color: #94a3b8; margin-bottom: 10px;
+    }
+    #fb-bio {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 12px; font-weight: 300; color: var(--text);
+      line-height: 1.75; margin: 0;
+    }
 
     /* standalone paper detail box — bottom of left column */
     #paper-detail {
@@ -272,8 +302,13 @@
   <!-- MAIN -->
   <div id="main">
 
-    <!-- LEFT COLUMN: paper detail -->
+    <!-- LEFT COLUMN: faculty bio (top) + paper detail (bottom) -->
     <div id="left-col">
+      <div id="faculty-bio">
+        <div id="fb-name"></div>
+        <div id="fb-school"></div>
+        <p id="fb-bio"></p>
+      </div>
       <div id="paper-detail">
         <div id="pd-faculty"></div>
         <div id="pd-school"></div>
@@ -573,6 +608,48 @@
     }
   ];
 
+  /* ── faculty biographies ────────────────────── */
+  var BIOS = {
+    watts:         'Duncan Watts (Center Co-Director) is the Stevens University Professor and a Penn Integrates Knowledge University Professor with appointments in the Annenberg School, the Department of Computer and Information Science, and in the Wharton School. Duncan also directs the Computational Social Science Lab at Penn, which houses the Penn Media Accountability Project (PennMAP). Also supported by the Center for Media, Technology, and Democracy, PennMAP is dedicated to enhancing media transparency and accountability at the scale of the entire information ecosystem. Duncan\u2019s recent work identifies a divide in bias between cable and broadcast TV news, highlights the dangers of high misinformation exposure to a small fringe of people, examines the gray area of factually accurate but deceptive content, and estimating the effects of YouTube\u2019s recommender systems.',
+    yoo:           'Christopher Yoo (Center Co-Director) is the Imasogie Professor in Law and Technology with appointments in the Penn Carey Law School, Annenberg School, and the Department of Computer and Information Science. Christopher is also the Founding Director of the Center for Technology, Innovation & Competition. Some of his recent research projects include investigating innovative ways to connect more people to the Internet; standards-based governance for AI; as well as the First Amendment issues raised by the regulation of social media.',
+    levendusky:    'Matt Levendusky is a professor of Political Science, as well as the Stephen and Mary Baran Chair in the Institutions of Democracy at the Annenberg Public Policy Center. He is most closely associated with the study of polarization, but is more broadly a scholar of democracy. His work has often focused on partisan media, two-step communication flows, and local news, and many other topics. Currently, Matt is working on trying to understand attention, broadly defined, from short-form video content to long-form podcasts.',
+    callisonburch: 'Chris Callison-Burch is a Professor of Computer and Information Science whose course on Artificial Intelligence has one of the highest enrollments at Penn, with nearly 700 students taking it this Fall. His current research is focused on applications of large language models, including evaluating and improving the reasoning of LLMs. He also collaborates with Duncan Watts and others on the Media Bias Detector, employing LLMs to analyze news. In 2023, Chris testified before the House of Representatives about the relationship between generative AI and copyright law.',
+    lelkes:        'Yphtach Lelkes (Center Faculty Advisor) is an Associate Professor at the Annenberg School for Communication and the Co-director for the Polarization Research Lab as well as the Center for Information Networks and Democracy. His work focuses on the roots and consequences of polarization, how changes to the information environment impact political attitudes, and the relationship between psychological perspectives and political belief system structures. Yph\u2019s recent publications include assessments of inconsistencies in LLM-hate speech detection, underestimation of the diversity of partisan attitudes by out-groups, and greater demand for identity-oriented media coverage.',
+    halljamieson:  'Kathleen Hall Jamieson (Center Faculty Advisor) is the Elizabeth Ware Packard Professor of Communication at the Annenberg School for Communication, the Walter and Leonore Annenberg Director of the University\u2019s Annenberg Public Policy Center, as well as the co-founder of FactCheck.org and SciCheck. She has focused on the political attitudes and polarized language associated with science and emerging technology topics, as well as ways to protect the integrity of research and science in an age of politicized rhetoric and consequential AI advances. Kathleen\u2019s recent publications hone in on the benefits and potential risks of AI to the field of science, how trust in climate science is impacted by media politicization, and how efforts to counter misinformation should involve engaging in-group trusted leaders.',
+    gonzalezbailon:'Sandra Gonz\u00e1lez-Bail\u00f3n (Center Faculty Advisor) is the Carolyn Marvin Professor of Communication at the Annenberg School for Communication, Co-Director of the Center for Information Networks and Democracy, and holds a secondary appointment in the Department of Sociology. Her research interests include how online networks and algorithmic curation shape exposure to information, with implications for how we think about political engagement, information diffusion, and the consumption of news. Sandra\u2019s recent research includes the analysis of news exposure in a multi-platform environment, the reconstruction of viral diffusion chains for political and non-political information, and the analysis of ideological segregation in exposure to news on social media.',
+    hopkins:       'Daniel J. Hopkins (Center Faculty Advisor) is the Julie and Martin Franklin Presidential Professor of Political Science, with secondary appointments at the School of Engineering and Applied Science and the Annenberg School for Communication. He is a co-founder of the Philadelphia Behavioral Science Initiative. He focuses on American politics and the politics of select other democracies, with an emphasis on racial and ethnic politics; state and local politics; and political behavior. Daniel\u2019s recent publications include the limited effects of online interventions to spur state and local news consumption, the sources of public support for and opposition to cross-issue compromises, and research on the impacts of social media on the growth of identity-oriented news coverage.',
+    patton:        'Desmond Patton (Center Faculty Advisor) is a PIK University Professor, with joint appointments in the School of Social Policy & Practice and the Annenberg School for Communication, where he is the Waldo E Johnson Jr. Professor of Communication, and also holds secondary appointments in the Department of Psychiatry at Children\u2019s Hospital of Philadelphia & Perelman School of Medicine. He is founding director of SAFElab and the founding faculty director of the Penn Center for Inclusive Innovation & Technology. Desmond\u2019s research focuses on how online communities influence offline behavior and seeks to better integrate culture, context, and inclusion into machine learning and computer vision analysis. Desmond\u2019s recent publications include suggestions for child participation in AI governance, and the harmful implications of LLM outputs lacking culturally-relevant linguistic contexts.',
+    metaxa:        'Dana\u00e9 Metaxa (Center Faculty Advisor) is the Raj and Neera Singh Term Assistant Professor in the Computer and Information Science department, with a secondary appointment in the Annenberg School for Communication. They are the co-founder of the Penn Human Computer Interaction group and serve on the editorial board of the Journal of Online Trust and Safety. Dana\u00e9 studies bias and representation in algorithmic systems and content, focusing on social settings like politics, employment, and advertising, and on marginalized groups. Their recent work includes researching harms caused to users, particularly minorities, when others perceive or suspect them of using AI; platform development to investigate the premise that personalized ad targeting is more effective on users; and a sociotechnical audit investigating how X\u2019s timeline algorithm affects news curation and user perceptions.',
+    albarracin:    'Dolores Albarrac\u00edn is a PIK University Professor and is the Director at the Social Action Lab as well as the Communication Science Division at the Annenberg Public Policy Center. She studies the impact of communication and persuasion on human behavior and the formation of beliefs, attitudes, and goals, particularly those that are socially beneficial. She has published books on conspiracy theory formation and how social cognition changes behavior, and has worked extensively on the relationship between beliefs and behaviors. Dolores\u2019 recent publications include identification and exploration of the main processes to impact change in attitudes and beliefs bypassing over correcting misinformation as a possible way of changing attitudes and behavioral intentions, and the impact of linguistics on voting intentions.',
+    freelon:       'Deen Freelon is the Allan Randall Freelon Sr. Professor and the Presidential Professor at the Annenberg School for Communication, where he runs the Political and Entity Communication Lab. He applies computational methods to social media data and focuses on digital politics, mis/disinformation, conspiracy theories, hyperpartisan content, ideological asymmetry, identity politics, and personalized information environments. Deen\u2019s recent works include the development of a data collection system to study personalized information environments; exploration of how APIs, data donations, and screen tracking can be used to study misinformation, algorithmic bias, and well-being; and the shared psychological roots of prejudice and conspiracy theory belief.',
+    mutz:          'Diana Mutz holds the Samuel Stouffer Chair in Political Science and Communication, where she also serves as Director of the Institute for the Study of Citizens and Politics. Her research focuses on how the American mass public forms opinions on domestic and international issues. She is a Fellow of the National Academy of Sciences, a Fellow of the American Academy of Arts and Sciences, and recipient of the Lifetime Career Achievement Award in Political Communication. Mutz has published empirical research in a wide variety of journals. Her award-winning books include Hearing the Other Side: Deliberative versus Participatory Democracy and In-Your-Face Politics: The Consequences of Uncivil Media. Her latest book, Winners and Losers: The Psychology of Foreign Trade, received the American Political Science Association\u2019s Best Book Award in 2022.',
+    ungar:         'Lyle Ungar is a Professor of Computer and Information Science and he also holds appointments in Psychology, Bioengineering, Genomics and Computational Biology, and Operations, Information and Decisions. Lyle uses scalable machine learning methods for data mining and text mining and analysis of text and images in social media to better understand the drivers of physical and mental well-being. Some of his recent work explores using large language models for tutoring and language learning; as well as how interacting with AI chatbots affects perceptions of other people. He also studies online platforms, such as the causal impact of civility on platform engagement and using social media data to assess well-being.',
+    roth:          'Dan Roth is the Eduardo D. Glandt Distinguished Professor of Computer and Information Science and the Chief AI Scientist at Oracle. He is advancing the field of reasoning in large language models, on which he gave a recent keynote at the KDD Conference. He is also working on many fundamental problems in information access, as it applies to multimodal information sources, and on information pollution and conflicts in the information ecosystem. Previously, Dan was a Vice President and Distinguished Scientist at Amazon, where he led the scientific effort behind Amazon\u2019s first-generation GenAI products, including Titan Models, Amazon Q, and Amazon Bedrock. Dan is a Fellow of the AAAS, ACM, AAAI, and ACL, and a recipient of the IJCAI John McCarthy Award.',
+    yildirim:      'Pinar Yildirim is Associate Professor of Marketing at the Wharton School, a secondary Associate Professor of Economics at the Department of Economics, as well as Senior Fellow at the Center for Technology, Innovation & Competition. Pinar studies online platforms, artificial intelligence, privacy, digitization, and social networks\u2014including social network design and the impact of advertising on media content. Her recent publications study the substitutability of charitable and political giving, conflicts of interest between politicians and the media that covers them, as well as how politicians respond to labor market changes driven by automation.',
+    miller:        'Blake Miller is an Assistant Professor of Political Science and affiliated with the Center for the Study of Contemporary China. Their research examines how authoritarian regimes control media, the internet, and civil society organizations, with an empirical focus on China. Blake\u2019s recent publications include examining the role NGOs in authoritarian regimes, the logic behind media platforms\u2019 decisions to report users or content to the Chinese Communist Party, and the introduction of a framework to help minimize the amount of data required to train a machine learning model.',
+    falk:          'Emily Falk is a Professor of Communication, Psychology, Marketing, as well as of Operations, Informatics, and Decisions, and further the Vice Dean of the Annenberg School for Communication. Her research uses tools from psychology, neuroscience, and communication to examine what makes messages persuasive, why and how ideas spread, and what makes people effective communicators. Her recent research has found that people are more likely to share news content perceived as more socially relevant, and that affective framing of headlines influences engagement and memory.',
+    lapinski:      'John Lapinski is the Robert A. Fox Professor of Political Science and the Director of the Penn Program on Opinion Research and Election Studies. John is also the Director of the Elections Unit at NBC News, where he is responsible for projecting races for the network. He also covers opinion polling. His research has focused on the empirical analysis of congressional decision-making as well as survey methodology, such as the predictive validity of polling on election outcomes.',
+    knox:          'Dean Knox is a computational social scientist, as well as an Assistant Professor of Operations, Information and Decisions, and of Statistics and Data Science, at the Wharton School. Dean\u2019s recent work finds short-term exposure to filter-bubble recommendation systems has a limited effect on polarization, and another paper demonstrates the causal effects of vocal style in presidential campaign speeches. Dean is also a scholar of policing, a 2021 Andrew Carnegie Fellow, and the inaugural recipient of Science magazine\u2019s early career award for interdisciplinary research.',
+    melumad:       'Shiri Melumad is an Associate Professor of Marketing at the Wharton School, where she studies the consumer psychology of technology usage, new media and user-generated content, and digital marketing. One major focus area is on how people generate and consume online content, including recent work comparing knowledge resulting from search engines versus generative AI and how voice technologies alter consumer search. Other research examines how technology affects people psychologically, such as how reading vs. listening to news changes our interpretation of it.',
+    morse:         'Michael Morse is an Assistant Professor of Law with a secondary appointment in the political sciences department. He studies voting rights, election administration, and the criminal justice system; his work combines empirical methods and novel data with traditional legal scholarship. Michael\u2019s recent publications focus on the privacy-transparency trade-off inherent in all election reporting and the maintenance of voter registration lists.',
+    santoro:       'Erik Santoro is an Assistant Professor of Operations, Information and Decisions at the Wharton School. His research examines the role of conversation in bridging societal divides. Erik\u2019s recent work explores the impact of listening on the efficacy of persuasive appeals during political disagreements and how dialogue between outpartisans can reduce affective polarization.',
+    culhane:       'Dennis Culhane is the Dana and Andrew Stone Professor of Social Policy at the School of Social Policy and Practice as well as Co-founder and Faculty Director of the Actionable Intelligence for Social Policy (AISP). He is a highly regarded expert in developing critical data infrastructure, and his work has resulted in federal legislation requiring all cities and states to develop administrative data systems. Dennis has recently written on the role of legislation and executive action in promoting cross-agency data sharing for public good.'
+  };
+
+  /* ── faculty without research papers on diagram ─ */
+  var FACULTY_ONLY = [
+    { id: 'yoo',          name: 'Christopher Yoo',        school: 'Penn Carey Law School' },
+    { id: 'halljamieson', name: 'Kathleen Hall Jamieson', school: 'Annenberg School' },
+    { id: 'albarracin',   name: 'Dolores Albarrac\u00edn', school: 'Annenberg School' },
+    { id: 'freelon',      name: 'Deen Freelon',           school: 'Annenberg School' },
+    { id: 'ungar',        name: 'Lyle Ungar',             school: 'Computer and Information Science' },
+    { id: 'roth',         name: 'Dan Roth',               school: 'Computer and Information Science' },
+    { id: 'lapinski',     name: 'John Lapinski',          school: 'Political Science' },
+    { id: 'knox',         name: 'Dean Knox',              school: 'Wharton School' },
+    { id: 'morse',        name: 'Michael Morse',          school: 'Penn Carey Law School' },
+    { id: 'culhane',      name: 'Dennis Culhane',         school: 'School of Social Policy & Practice' }
+  ];
+
   /* ── helpers ─────────────────────────────────── */
   function esc(str) {
     return String(str)
@@ -657,10 +734,49 @@
   var selectedActor = null;
   var hoveredArrow  = null;
   var hoveredCard   = null;
-  var hoveredDetail = null;   // mouse is over the detail panel
-  var activeDetail  = null;   // which paper id is currently in the detail panel
+  var hoveredDetail = null;
+  var activeDetail  = null;
+  var hoveredBio    = null;
+  var activeBio     = null;
 
   document.getElementById('svg-wrap').innerHTML = buildSVG();
+
+  /* ── bio box ─────────────────────────────────── */
+  function showBio(id) {
+    var bio = BIOS[id];
+    if (!bio) return;
+    activeBio = id;
+    var name = '', school = '';
+    for (var k = 0; k < PAPERS.length; k++) {
+      if (PAPERS[k].id === id) { name = PAPERS[k].faculty; school = PAPERS[k].school; break; }
+    }
+    if (!name) {
+      for (var k = 0; k < FACULTY_ONLY.length; k++) {
+        if (FACULTY_ONLY[k].id === id) { name = FACULTY_ONLY[k].name; school = FACULTY_ONLY[k].school; break; }
+      }
+    }
+    document.getElementById('fb-name').textContent   = name;
+    document.getElementById('fb-school').textContent = school;
+    document.getElementById('fb-bio').textContent    = bio;
+    document.getElementById('faculty-bio').classList.add('visible');
+  }
+
+  function hideBio() {
+    activeBio = null;
+    document.getElementById('faculty-bio').classList.remove('visible');
+  }
+
+  var bioBox = document.getElementById('faculty-bio');
+  bioBox.addEventListener('mouseenter', function () { hoveredBio = activeBio; });
+  bioBox.addEventListener('mouseleave', function () {
+    var id = hoveredBio;
+    hoveredBio = null;
+    if (id && hoveredArrow !== id && hoveredCard !== id) {
+      var hasPaper = false;
+      for (var k = 0; k < PAPERS.length; k++) { if (PAPERS[k].id === id) { hasPaper = true; break; } }
+      if (hasPaper) { deactivatePaper(id); } else { hideBio(); }
+    }
+  });
 
   /* ── activate / deactivate ───────────────────── */
   function showDetail(id) {
@@ -695,11 +811,11 @@
       if (vis.hasAttribute('marker-start')) vis.setAttribute('marker-start', 'url(#tip-bi-hover)');
     });
     showDetail(id);
+    showBio(id);
   }
 
   function deactivatePaper(id) {
-    /* keep active while the mouse is over the detail panel */
-    if (hoveredDetail === id) return;
+    if (hoveredDetail === id || hoveredBio === id) return;
     var card = document.getElementById('card-' + id);
     if (card) card.classList.remove('active');
     document.querySelectorAll('[id^="av-' + id + '-"]').forEach(function (vis) {
@@ -711,22 +827,23 @@
       if (vis.hasAttribute('marker-start')) vis.setAttribute('marker-start', 'url(#tip-bi)');
     });
     hideDetail();
+    hideBio();
   }
 
   /* ── detail panel hover ──────────────────────── */
   var detailBox = document.getElementById('paper-detail');
-  detailBox.addEventListener('mouseenter', function () {
-    hoveredDetail = activeDetail;
-  });
+  detailBox.addEventListener('mouseenter', function () { hoveredDetail = activeDetail; });
   detailBox.addEventListener('mouseleave', function () {
     var id = hoveredDetail;
     hoveredDetail = null;
-    if (id && hoveredArrow !== id && hoveredCard !== id) deactivatePaper(id);
+    if (id && hoveredArrow !== id && hoveredCard !== id && hoveredBio !== id) deactivatePaper(id);
   });
 
-  /* ── render paper cards ──────────────────────── */
+  /* ── render paper cards + faculty-only cards ──── */
   function renderPaperCards() {
     var html = '';
+
+    /* paper cards */
     PAPERS.forEach(function (p) {
       html += '<div class="paper-card" id="card-' + p.id + '" data-paper="' + p.id + '">';
       html += '<div class="card-name">' + esc(p.faculty) + '</div>';
@@ -737,8 +854,19 @@
               esc(p.linkText) + '</a>' + esc(p.after) + '</p>';
       html += '</div></div>';
     });
+
+    /* faculty-only cards (no arrows on diagram) */
+    FACULTY_ONLY.forEach(function (f) {
+      html += '<div class="paper-card faculty-card" id="fcard-' + f.id + '" data-faculty="' + f.id + '">';
+      html += '<div class="card-name">' + esc(f.name) + '</div>';
+      html += '<div class="card-school">' + esc(f.school) + '</div>';
+      html += '</div>';
+    });
+
     document.getElementById('paper-cards').innerHTML = html;
-    document.querySelectorAll('.paper-card').forEach(function (card) {
+
+    /* paper card listeners */
+    document.querySelectorAll('.paper-card[data-paper]').forEach(function (card) {
       var pid = card.getAttribute('data-paper');
       card.addEventListener('mouseenter', function () {
         hoveredCard = pid;
@@ -747,6 +875,19 @@
       card.addEventListener('mouseleave', function () {
         hoveredCard = null;
         if (hoveredArrow !== pid) deactivatePaper(pid);
+      });
+    });
+
+    /* faculty-only card listeners */
+    document.querySelectorAll('.faculty-card').forEach(function (card) {
+      var fid = card.getAttribute('data-faculty');
+      card.addEventListener('mouseenter', function () {
+        hoveredCard = fid;
+        showBio(fid);
+      });
+      card.addEventListener('mouseleave', function () {
+        hoveredCard = null;
+        if (hoveredBio !== fid) hideBio();
       });
     });
   }
