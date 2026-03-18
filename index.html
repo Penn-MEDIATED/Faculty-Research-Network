@@ -89,7 +89,7 @@
 
     /* ── RIGHT PANEL ─────────────────────────── */
     #panel {
-      width: 258px; flex-shrink: 0;
+      width: 284px; flex-shrink: 0;
       display: flex; flex-direction: column;
       background: white; border-left: 1px solid var(--border);
       overflow: hidden;
@@ -159,17 +159,18 @@
     /* paper cards list */
     #paper-cards {
       flex: 1; overflow-y: auto; padding: 6px 10px 8px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+      align-content: start;
     }
     #paper-cards::-webkit-scrollbar { width: 3px; }
     #paper-cards::-webkit-scrollbar-thumb { background: #dde3ee; border-radius: 3px; }
 
     .paper-card {
       border-radius: 6px; border: 1.5px solid var(--border);
-      padding: 7px 10px; margin-bottom: 4px; cursor: pointer;
+      padding: 7px 10px; cursor: pointer;
       background: white;
       transition: border-color .13s, box-shadow .13s, background .13s;
     }
-    .paper-card:last-child { margin-bottom: 0; }
     .paper-card:hover { background: #f6f8fd; border-color: #b8cde0; }
     .paper-card.active {
       border-color: var(--orange);
@@ -242,25 +243,6 @@
       pointer-events: auto;
     }
 
-    /* legend */
-    #legend {
-      flex-shrink: 0; padding: 7px 15px;
-      border-top: 1px solid var(--border);
-      background: var(--bg);
-      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    }
-    .legend-item {
-      display: flex; align-items: center; gap: 5px;
-      font-family: 'Merriweather Sans', sans-serif;
-      font-size: 9px; color: #94a3b8;
-    }
-    .lg-line {
-      width: 20px; height: 0;
-      border-top: 2px dashed #94a3b8;
-    }
-    .lg-line.on {
-      border-top-color: var(--orange); border-top-style: solid;
-    }
   </style>
 </head>
 <body>
@@ -298,10 +280,6 @@
       <div id="actor-card"></div>
       <div id="panel-hint">Hover a dashed arrow to see a paper summary, or click an actor icon for details.</div>
       <div id="paper-cards"></div>
-      <div id="legend">
-        <div class="legend-item"><div class="lg-line"></div>Research paper</div>
-        <div class="legend-item"><div class="lg-line on"></div>On hover</div>
-      </div>
     </div>
 
   </div><!-- /main -->
@@ -326,7 +304,7 @@
       label: ['News Media'],
       color: '#b45309',
       cx: 140, cy: 295,
-      faculty: 'Watts, Levendusky, Pickard, Hall Jamieson, Hopkins, Gonz\u00e1lez-Bail\u00f3n, Freelon',
+      faculty: 'Watts, Levendusky, Pickard, Hall Jamieson, Hopkins, Gonz\u00e1lez-Bail\u00f3n, Freelon, Yildirim, Falk',
       desc: 'Broadcast, cable, local, and digital news organizations. Produce and frame information that shapes public knowledge and political attitudes.',
       icon: '<path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="12" y2="15"/>'
     },
@@ -384,7 +362,11 @@
     { x: 465, y: 435, size: 24, op: 0.72 },
     { x: 510, y: 195, size: 24, op: 0.75 },
     { x: 350, y: 520, size: 26, op: 0.78 },
-    { x: 445, y: 520, size: 22, op: 0.68 }
+    { x: 445, y: 520, size: 22, op: 0.68 },
+    { x: 62,  y: 215, size: 22, op: 0.68 },
+    { x: 58,  y: 370, size: 26, op: 0.78 },
+    { x: 835, y: 240, size: 22, op: 0.70 },
+    { x: 820, y: 420, size: 25, op: 0.78 }
   ];
 
   var PAPERS = [
@@ -534,6 +516,45 @@
       linkText: 'who is posting rather than what',
       before: 'Miller and Gallagher find that China\u2019s information controls focus on ',
       after: ' \u2014 the state permits open online debate while targeting influential users and networks whose independence could challenge party authority.'
+    },
+    {
+      id: 'yildirim',
+      paths: ['M 732,190 Q 450,225 168,290'],
+      bidir: true,
+      faculty: 'Pinar Yildirim',
+      school: 'Wharton School',
+      link: 'https://link.springer.com/article/10.1007/s11129-025-09300-y',
+      linkText: 'media preferentially amplify candidates\u2019 most divisive speech',
+      before: 'Garc\u00eda-Jimeno and Yildirim analyze 400+ Senate races to show that ',
+      after: ' \u2014 creating a strategic dilemma where statements aimed at loyal supporters reach swing voters instead.'
+    },
+    {
+      id: 'falk',
+      paths: [
+        'M 120,275 Q 92,245 70,223',
+        'M 62,226 Q 53,292 58,357'
+      ],
+      bidir: false,
+      faculty: 'Emily Falk',
+      school: 'Annenberg School',
+      link: 'https://academic.oup.com/pnasnexus/article/4/2/pgaf019/7974719',
+      linkText: 'personal and social relevance of news',
+      before: 'Falk and colleagues find that prompting people to reflect on the ',
+      after: ' increases sharing behavior \u2014 an effect that generalizes across cultures, topics, and future content.'
+    },
+    {
+      id: 'patton',
+      paths: [
+        'M 627,289 Q 730,265 824,243',
+        'M 624,309 Q 715,365 810,414'
+      ],
+      bidir: false,
+      faculty: 'Desmond Patton',
+      school: 'School of Social Policy & Practice',
+      link: 'https://www.annualreviews.org/content/journals/10.1146/annurev-linguistics-041824-050629',
+      linkText: 'systematically misrepresent African American Language',
+      before: 'Patton finds that LLMs \u2014 by how they are trained \u2014 ',
+      after: ', failing speakers of AAL in ways with real consequences for representation, understanding, and harm.'
     }
   ];
 
