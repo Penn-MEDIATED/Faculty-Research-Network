@@ -85,6 +85,7 @@
       display: flex; flex-direction: column;
       background: #fafaf8;
       border-right: 1px solid var(--border);
+      min-height: 0; overflow: hidden;
     }
 
     /* ── SVG AREA ────────────────────────────── */
@@ -99,7 +100,7 @@
 
     /* ── RIGHT PANEL ─────────────────────────── */
     #panel {
-      width: 360px; flex-shrink: 0;
+      width: 420px; flex-shrink: 0;
       display: flex; flex-direction: column;
       background: white; border-left: 1px solid var(--border);
       overflow: hidden;
@@ -160,24 +161,26 @@
       flex-shrink: 0;
       padding: 9px 15px;
       font-family: 'Merriweather', Georgia, serif;
-      font-size: 10.5px; font-weight: 300; font-style: italic;
-      color: #b0bdd0; line-height: 1.6;
+      font-size: 10.5px; font-weight: 400; font-style: italic;
+      color: #6b7a99; line-height: 1.6;
       border-bottom: 1px solid var(--border);
     }
     #panel-hint.hidden { display: none; }
 
     /* paper cards list */
     #paper-cards {
-      flex: 1; overflow-y: auto; padding: 6px 10px 6px;
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;
+      flex: 1; overflow-y: auto; padding: 8px 10px 8px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px;
       align-content: stretch;
     }
     #paper-cards::-webkit-scrollbar { width: 3px; }
     #paper-cards::-webkit-scrollbar-thumb { background: #dde3ee; border-radius: 3px; }
 
+    .arrow-g { cursor: pointer; }
+
     .paper-card {
       border-radius: 6px; border: 1.5px solid var(--border);
-      padding: 8px 10px; cursor: pointer;
+      padding: 9px 10px; cursor: pointer;
       background: white;
       display: flex; flex-direction: column; justify-content: center;
       transition: border-color .13s, box-shadow .13s, background .13s;
@@ -219,7 +222,8 @@
     /* faculty bio box — top of left column */
     #faculty-bio {
       flex: 1;
-      overflow-y: auto;
+      min-height: 0;                 /* allows flex item to shrink below content size */
+      overflow: hidden;              /* clips bio at the available height — no scrollbar */
       background: white;
       border-left: 3px solid var(--navy);
       border-bottom: 1.5px solid var(--border);
@@ -230,6 +234,7 @@
       flex-direction: column;
     }
     #faculty-bio.visible { display: flex; }
+    #faculty-bio.expanded { overflow-y: auto; }
     #fb-header {
       display: flex; align-items: flex-start;
       gap: 12px; margin-bottom: 12px; flex-shrink: 0;
@@ -256,13 +261,26 @@
     #fb-bio {
       font-family: 'Merriweather', Georgia, serif;
       font-size: 12px; font-weight: 300; color: var(--text);
-      line-height: 1.75; margin: 0; flex: 1;
+      line-height: 1.75; margin: 0;
+      min-height: 0; overflow: hidden;
     }
+    #fb-expand-btn {
+      display: none;           /* shown via JS only when content overflows */
+      flex-shrink: 0;
+      background: none; border: none; cursor: pointer;
+      color: #b0ada6; font-size: 11px;
+      padding: 6px 0 0; align-self: center;
+      transition: transform 0.3s;
+      line-height: 1;
+    }
+    #fb-expand-btn.expanded { transform: rotate(180deg); }
 
     /* standalone paper detail box — bottom of left column */
+    #left-col.bio-expanded #paper-detail { height: 20vh; }
     #paper-detail {
       margin-top: auto;          /* pushes to bottom of flex column */
       height: 40vh;
+      transition: height 0.35s ease;
       overflow-y: auto;
       background: white;
       border-left: 3px solid var(--orange);
@@ -347,6 +365,7 @@
           </div>
         </div>
         <p id="fb-bio"></p>
+        <button id="fb-expand-btn" aria-label="Expand bio">&#9660;</button>
       </div>
       <div id="paper-detail">
         <div id="pd-title"></div>
@@ -362,11 +381,8 @@
 
     <!-- RIGHT PANEL -->
     <div id="panel">
-      <div class="panel-head">
-        <span class="panel-head-lbl">Penn MEDIATED Affiliated Faculty</span>
-      </div>
       <div id="actor-card"></div>
-      <div id="panel-hint">Hover over a faculty name or a part of the network to see relevant research.</div>
+      <div id="panel-hint">Hover over a faculty name or the network to see relevant research.</div>
       <div id="paper-cards"></div>
     </div>
 
@@ -389,7 +405,7 @@
     },
     {
       id: 'media',
-      label: ['News Media'],
+      label: ['Digital News'],
       color: '#b45309',
       cx: 140, cy: 295,
       faculty: 'Watts, Levendusky, Pickard, Hall Jamieson, Hopkins, Gonz\u00e1lez-Bail\u00f3n, Freelon, Yildirim, Falk',
@@ -404,6 +420,15 @@
       faculty: 'Gonz\u00e1lez-Bail\u00f3n, Freelon, Watts, Metaxa, Roth, Levendusky, Lelkes',
       desc: 'Platforms for user-generated content, real-time information sharing, and algorithmic content distribution. Shape political discourse, misinformation spread, and community formation.',
       icon: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>'
+    },
+    {
+      id: 'broadcasttv',
+      label: ['Broadcast TV'],
+      color: '#c2410c',
+      cx: 370, cy: 468,
+      faculty: 'Watts, Mutz, Levendusky',
+      desc: 'Broadcast and cable television networks. A dominant medium for news and political information that shapes public opinion through reach, framing, and editorial choice.',
+      icon: '<rect width="20" height="15" x="2" y="7" rx="2"/><polyline points="17 2 12 7 7 2"/>'
     },
     {
       id: 'llms',
@@ -655,6 +680,36 @@
       linkText: 'systematically misrepresent African American Language',
       before: 'Patton finds that LLMs \u2014 by how they are trained \u2014 ',
       after: ', failing speakers of AAL in ways with real consequences for representation, understanding, and harm.'
+    },
+    {
+      id: 'halljamieson',
+      title: 'Using a mental model approach to undercut the effects of exposure to mRNA vaccination misconceptions: Two randomized trials',
+      paths: [
+        'M 293,164 Q 283,120 272,76',
+        'M 290,185 Q 235,287 180,390'
+      ],
+      bidir: false,
+      faculty: 'Kathleen Hall Jamieson',
+      school: 'Annenberg School',
+      link: 'https://www.pnas.org/doi/10.1073/pnas.2517067122',
+      linkText: '',
+      before: 'This study addresses some of the issues with traditional fact-checking regarding vaccine misinformation by introducing a \u201cmental model approach\u201d that shows how vaccines actually work, thereby contradicting false claims without directly responding to them. As the authors note, this approach has practical applications, as it can be \u201cintroduced in a live debate or in educational, clinical, or public health settings long before misconception exposure.\u201d',
+      after: ''
+    },
+    {
+      id: 'ungar',
+      title: 'Culturally-Aware Conversations: A Framework & Benchmark for LLMs',
+      paths: [
+        'M 305,179 Q 448,235 590,291',
+        'M 593,287 Q 555,245 517,203'
+      ],
+      bidir: false,
+      faculty: 'Lyle Ungar',
+      school: 'Computer and Information Science',
+      link: 'https://penn-mediated.github.io/Research-Compendium/#culturally-aware-conversations-a-framework-amp-benchmark-for',
+      linkText: '',
+      before: 'In this paper, the authors introduce the \u201cfirst framework and benchmark designed to evaluate LLMs in realistic, multicultural conversational settings.\u201d',
+      after: ''
     }
   ];
 
@@ -717,10 +772,8 @@
   /* ── faculty without research papers on diagram ─ */
   var FACULTY_ONLY = [
     { id: 'yoo',          name: 'Christopher Yoo',        school: 'Penn Carey Law School' },
-    { id: 'halljamieson', name: 'Kathleen Hall Jamieson', school: 'Annenberg School' },
     { id: 'albarracin',   name: 'Dolores Albarrac\u00edn', school: 'Annenberg School' },
     { id: 'freelon',      name: 'Deen Freelon',           school: 'Annenberg School' },
-    { id: 'ungar',        name: 'Lyle Ungar',             school: 'Computer and Information Science' },
     { id: 'roth',         name: 'Dan Roth',               school: 'Computer and Information Science' },
     { id: 'lapinski',     name: 'John Lapinski',          school: 'Political Science' },
     { id: 'knox',         name: 'Dean Knox',              school: 'Wharton School' },
@@ -730,9 +783,9 @@
 
   /* ── custom card display order ──────────────── */
   var CARD_ORDER = [
-    'watts','yoo','lelkes','halljamieson','gonzalezbailon','hopkins',
-    'patton','metaxa','albarracin','levendusky','freelon','yildirim',
-    'falk','santoro','mutz','callisonburch','ungar','knox',
+    'watts','yoo','lelkes','halljamieson','hopkins','patton',
+    'metaxa','gonzalezbailon','callisonburch','albarracin','levendusky','freelon',
+    'yildirim','falk','santoro','mutz','ungar','knox',
     'miller','lapinski','melumad','morse','roth','culhane'
   ];
 
@@ -818,7 +871,9 @@
 
   /* ── state ───────────────────────────────────── */
   var selectedActor = null;
-  var currentPaper  = null;   // paper id currently shown (sticky)
+  var currentPaper  = null;   // paper id currently previewed (hover)
+  var lockedPaper   = null;   // paper id locked by click
+  var lockedFaculty = null;   // faculty id locked by click
 
   document.getElementById('svg-wrap').innerHTML = buildSVG();
 
@@ -860,7 +915,20 @@
       photoEl.src = '';
       photoEl.classList.remove('visible');
     }
-    document.getElementById('faculty-bio').classList.add('visible');
+    /* reset expand state whenever a new bio is shown */
+    var fbBox = document.getElementById('faculty-bio');
+    var fbBtn = document.getElementById('fb-expand-btn');
+    fbBox.classList.remove('expanded');
+    fbBtn.classList.remove('expanded');
+    document.getElementById('left-col').classList.remove('bio-expanded');
+    fbBtn.style.display = 'none';
+    fbBox.classList.add('visible');
+    /* show expand button only if content is taller than the container */
+    setTimeout(function () {
+      if (fbBox.scrollHeight > fbBox.clientHeight + 4) {
+        fbBtn.style.display = 'block';
+      }
+    }, 30);
   }
 
   /* ── paper detail box ────────────────────────── */
@@ -911,6 +979,44 @@
     showBio(id);
   }
 
+  /* ── lock / restore helpers ──────────────────── */
+  function lockPaper(id) {
+    lockedPaper   = id;
+    lockedFaculty = null;
+    activatePaper(id);
+  }
+
+  function lockFaculty(id) {
+    lockedPaper   = null;
+    lockedFaculty = id;
+    activateFaculty(id);
+  }
+
+  function restoreLockedState() {
+    if (lockedPaper) {
+      activatePaper(lockedPaper);
+    } else if (lockedFaculty) {
+      /* reset any paper that was previewed */
+      if (currentPaper) {
+        var old = document.getElementById('card-' + currentPaper);
+        if (old) old.classList.remove('active');
+        resetArrows(currentPaper);
+        document.getElementById('paper-detail').classList.remove('visible');
+        currentPaper = null;
+      }
+      showBio(lockedFaculty);
+    } else {
+      /* nothing locked — clear preview */
+      if (currentPaper) {
+        var old = document.getElementById('card-' + currentPaper);
+        if (old) old.classList.remove('active');
+        resetArrows(currentPaper);
+        document.getElementById('paper-detail').classList.remove('visible');
+        currentPaper = null;
+      }
+    }
+  }
+
   /* ── render paper cards + faculty-only cards ──── */
   function renderPaperCards() {
     /* build lookup maps for fast access */
@@ -928,8 +1034,8 @@
         html += '<div class="card-school">' + esc(p.school) + '</div>';
         html += '<div class="card-body">';
         html += '<p class="card-desc">' + esc(p.before) +
-                '<a href="' + p.link + '" target="_blank" rel="noopener noreferrer">' +
-                esc(p.linkText) + '</a>' + esc(p.after) + '</p>';
+                (p.linkText ? '<a href="' + p.link + '" target="_blank" rel="noopener noreferrer">' + esc(p.linkText) + '</a>' : '') +
+                esc(p.after) + '</p>';
         html += '</div></div>';
       } else {
         var f = facultyMap[id];
@@ -944,16 +1050,20 @@
 
     document.getElementById('paper-cards').innerHTML = html;
 
-    /* paper card listeners — sticky, no hide on leave */
+    /* paper card listeners */
     document.querySelectorAll('.paper-card[data-paper]').forEach(function (card) {
       var pid = card.getAttribute('data-paper');
       card.addEventListener('mouseenter', function () { activatePaper(pid); });
+      card.addEventListener('mouseleave', restoreLockedState);
+      card.addEventListener('click',      function () { lockPaper(pid); });
     });
 
-    /* faculty-only card listeners — sticky, no hide on leave */
+    /* faculty-only card listeners */
     document.querySelectorAll('.faculty-card').forEach(function (card) {
       var fid = card.getAttribute('data-faculty');
       card.addEventListener('mouseenter', function () { activateFaculty(fid); });
+      card.addEventListener('mouseleave', restoreLockedState);
+      card.addEventListener('click',      function () { lockFaculty(fid); });
     });
   }
 
@@ -1027,19 +1137,29 @@
     })(actorNodes[i]);
   }
 
-  /* arrow listeners — sticky, no hide on leave */
+  /* arrow listeners */
   var arrowGroups = document.querySelectorAll('.arrow-g');
   for (var j = 0; j < arrowGroups.length; j++) {
     (function (g) {
       var arrowId = g.getAttribute('data-arrow');
       g.addEventListener('mouseenter', function () { activatePaper(arrowId); });
+      g.addEventListener('mouseleave', restoreLockedState);
+      g.addEventListener('click',      function () { lockPaper(arrowId); });
     })(arrowGroups[j]);
   }
+
+  /* ── expand bio button ───────────────────────── */
+  document.getElementById('fb-expand-btn').addEventListener('click', function (e) {
+    e.stopPropagation(); /* don't bubble to card click */
+    document.getElementById('faculty-bio').classList.toggle('expanded');
+    document.getElementById('left-col').classList.toggle('bio-expanded');
+    this.classList.toggle('expanded');
+  });
 
   /* ── init ────────────────────────────────────── */
   renderPaperCards();
   renderActorCard();
-  activatePaper('watts');
+  lockPaper('watts');
 
 })();
 </script>
