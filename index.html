@@ -281,6 +281,22 @@
       line-height: 1;
     }
     #fb-expand-btn.expanded { transform: rotate(180deg); }
+    #fb-website {
+      display: none; flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 12px;
+      padding: 7px 14px;
+      background: var(--navy);
+      color: white;
+      font-family: 'Merriweather Sans', sans-serif;
+      font-size: 12px; font-weight: 600;
+      text-decoration: none;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      transition: background 0.15s;
+    }
+    #fb-website:hover { background: var(--link); }
+    #fb-website.visible { display: inline-block; }
 
     /* standalone paper detail box — bottom of left column */
     #left-col.bio-expanded #paper-detail { height: 20vh; }
@@ -373,6 +389,7 @@
         </div>
         <p id="fb-bio"></p>
         <button id="fb-expand-btn" aria-label="Expand bio">&#9660;</button>
+        <a id="fb-website" href="#" target="_blank" rel="noopener noreferrer">Faculty Website</a>
       </div>
       <div id="paper-detail">
         <div id="pd-title"></div>
@@ -721,6 +738,34 @@
     }
   ];
 
+  /* ── faculty websites ───────────────────────── */
+  var WEBSITES = {
+    watts:          'https://www.asc.upenn.edu/people/faculty/duncan-j-watts-phd',
+    yoo:            'https://www.law.upenn.edu/faculty/csyoo/',
+    lelkes:         'https://www.ylelkes.com/',
+    halljamieson:   'https://www.asc.upenn.edu/people/faculty/kathleen-hall-jamieson-phd',
+    gonzalezbailon: 'https://sandragonzalezbailon.net/',
+    hopkins:        'https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/standing-faculty/daniel-hopkins',
+    patton:         'https://sp2.upenn.edu/person/desmond-upton-patton/',
+    metaxa:         'https://metaxa.net/',
+    albarracin:     'https://socialactionlab.org/',
+    levendusky:     'https://web.sas.upenn.edu/mleven/',
+    freelon:        'https://dfreelon.org/',
+    yildirim:       'https://marketing.wharton.upenn.edu/profile/pyild/',
+    falk:           'https://www.asc.upenn.edu/people/faculty/emily-falk-phd',
+    santoro:        'https://oid.wharton.upenn.edu/profile/santoroe/#teaching',
+    callisonburch:  'https://www.cis.upenn.edu/~ccb/',
+    ungar:          'https://www.cis.upenn.edu/~ungar/',
+    knox:           'http://www.dcknox.com/',
+    miller:         'http://blakeapm.com/',
+    lapinski:       'https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/standing-faculty/john-lapinski',
+    melumad:        'http://www.shirimelumad.com/',
+    morse:          'https://www.law.upenn.edu/faculty/morsem',
+    mutz:           'https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/standing-faculty/diana-mutz',
+    roth:           'https://www.cis.upenn.edu/~danroth/',
+    culhane:        'https://sp2.upenn.edu/person/dennis-culhane/'
+  };
+
   /* ── faculty biographies ────────────────────── */
   var BIOS = {
     watts:         'Duncan Watts (Center Co-Director) is the Stevens University Professor and a Penn Integrates Knowledge University Professor with appointments in the Annenberg School, the Department of Computer and Information Science, and in the Wharton School. Duncan also directs the Computational Social Science Lab at Penn, which houses the Penn Media Accountability Project (PennMAP). Also supported by the Center for Media, Technology, and Democracy, PennMAP is dedicated to enhancing media transparency and accountability at the scale of the entire information ecosystem. Duncan\u2019s recent work identifies a divide in bias between cable and broadcast TV news, highlights the dangers of high misinformation exposure to a small fringe of people, examines the gray area of factually accurate but deceptive content, and estimating the effects of YouTube\u2019s recommender systems.',
@@ -922,6 +967,16 @@
     } else {
       photoEl.src = '';
       photoEl.classList.remove('visible');
+    }
+    /* website link */
+    var fbLink = document.getElementById('fb-website');
+    var siteUrl = WEBSITES[id];
+    if (siteUrl) {
+      fbLink.href = siteUrl;
+      fbLink.classList.add('visible');
+    } else {
+      fbLink.href = '#';
+      fbLink.classList.remove('visible');
     }
     /* reset expand state whenever a new bio is shown */
     var fbBox = document.getElementById('faculty-bio');
