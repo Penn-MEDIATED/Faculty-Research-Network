@@ -95,7 +95,7 @@
       padding: 10px 6px 6px 6px;
       background: #fafaf8;
     }
-    #svg-wrap { width: 100%; max-width: 860px; }
+    #svg-wrap { width: 100%; }
     #svg-wrap svg { display: block; width: 100%; height: auto; }
     #svg-area { flex-direction: column; }
     #auto-cycle-msg {
@@ -529,7 +529,7 @@
       bidir: false,
       faculty: 'Erik Santoro',
       school: 'Wharton School',
-      link: 'https://www.pnas.org/doi/10.1073/pnas.2421982122',
+      link: 'https://infodem.upenn.edu/research-compendium/#listen-for-a-change-a-longitudinal-field-experiment-on-liste',
       linkText: 'recent research',
       before: 'Santoro studies peer-to-peer dialogue. His ',
       after: ' challenges the notion that listening to those who disagree with you helps to persuade them.'
@@ -541,7 +541,7 @@
       bidir: true,
       faculty: 'Diana Mutz',
       school: 'Annenberg School',
-      link: 'https://www.pnas.org/doi/10.1073/pnas.2516942122',
+      link: 'https://infodem.upenn.edu/research-compendium/#the-persistence-of-cross-cutting-discussion-in-a-politicized',
       linkText: 'a significant increase',
       before: 'Mutz discovered ',
       after: ' in political discussions in the U.S., but no increase in conversations across the political aisle.'
@@ -556,7 +556,7 @@
       bidir: false,
       faculty: 'Matt Levendusky',
       school: 'Annenberg School',
-      link: 'https://www.journals.uchicago.edu/doi/abs/10.1086/733004',
+      link: 'https://infodem.upenn.edu/research-compendium/#unraveling-a-cancel-culture-dynamic-when-why-and-which-ameri',
       linkText: 'vastly overestimate how often others cancel offensive speech',
       before: 'Levendusky, Dias, and Druckman find that Americans ',
       after: ' on social media \u2014 though they accurately understand what motivates it, fueling self-censorship and partisan animus.'
@@ -585,7 +585,7 @@
       bidir: false,
       faculty: 'Shiri Melumad',
       school: 'Wharton School',
-      link: 'https://academic.oup.com/pnasnexus/article/4/10/pgaf316/8303888',
+      link: 'https://infodem.upenn.edu/research-compendium/#experimental-evidence-of-the-effects-of-large-language-model',
       linkText: 'develop shallower knowledge',
       before: 'Melumad and Yun find that people who rely on LLM summaries ',
       after: ' than those using traditional web search \u2014 even when the underlying facts are identical \u2014 because LLMs bypass the active discovery process that deepens learning.'
@@ -630,7 +630,7 @@
       bidir: false,
       faculty: 'Sandra Gonz\u00e1lez-Bail\u00f3n',
       school: 'Annenberg School',
-      link: 'https://journals.sagepub.com/doi/abs/10.1177/14614448251341496',
+      link: 'https://infodem.upenn.edu/research-compendium/#more-platforms-less-attention-to-news-a-multi-platform-analy',
       linkText: 'more platforms produce less aggregate news attention',
       before: 'Yang and Gonz\u00e1lez-Bail\u00f3n track news exposure across TV, web, and YouTube for 55,000 Americans, finding that ',
       after: ' \u2014 a committed minority of news followers account for most traffic, while a multi-platform environment widens the gap between news consumers and avoiders.'
@@ -671,7 +671,7 @@
       bidir: true,
       faculty: 'Pinar Yildirim',
       school: 'Wharton School',
-      link: 'https://link.springer.com/article/10.1007/s11129-025-09300-y',
+      link: 'https://infodem.upenn.edu/research-compendium/#persuasion-and-dissuasion-in-political-campaigns-communicati',
       linkText: 'media preferentially amplify candidates\u2019 most divisive speech',
       before: 'Garc\u00eda-Jimeno and Yildirim analyze 400+ Senate races to show that ',
       after: ' \u2014 creating a strategic dilemma where statements aimed at loyal supporters reach swing voters instead.'
@@ -701,7 +701,7 @@
       bidir: false,
       faculty: 'Desmond Patton',
       school: 'School of Social Policy & Practice',
-      link: 'https://www.annualreviews.org/content/journals/10.1146/annurev-linguistics-041824-050629',
+      link: 'https://infodem.upenn.edu/research-compendium/#how-well-do-large-language-models-understand-african-america',
       linkText: 'systematically misrepresent African American Language',
       before: 'Patton finds that LLMs \u2014 by how they are trained \u2014 ',
       after: ', failing speakers of AAL in ways with real consequences for representation, understanding, and harm.'
@@ -731,7 +731,7 @@
       bidir: false,
       faculty: 'Lyle Ungar',
       school: 'Computer and Information Science',
-      link: 'https://penn-mediated.github.io/Research-Compendium/#culturally-aware-conversations-a-framework-amp-benchmark-for',
+      link: 'https://infodem.upenn.edu/research-compendium/#culturally-aware-conversations-a-framework-amp-benchmark-for',
       linkText: '',
       before: 'In this paper, the authors introduce the \u201cfirst framework and benchmark designed to evaluate LLMs in realistic, multicultural conversational settings.\u201d',
       after: ''
@@ -864,8 +864,7 @@
   /* ── build SVG ───────────────────────────────── */
   function buildSVG() {
     var s = '<svg id="diagram" width="' + W + '" height="' + H +
-      '" viewBox="0 0 ' + W + ' ' + H +
-      '" xmlns="http://www.w3.org/2000/svg">';
+      '" viewBox="20 10 760 575" xmlns="http://www.w3.org/2000/svg">';
 
     s += '<rect width="' + W + '" height="' + H + '" fill="#fafaf8"/>';
 
