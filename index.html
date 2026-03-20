@@ -271,23 +271,29 @@
       line-height: 1.75; margin: 0;
       min-height: 0; overflow: hidden;
     }
-    #fb-expand-btn {
+    #fb-actions {
       display: none;
+      flex-shrink: 0;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    #fb-actions.visible { display: flex; }
+    #fb-expand-btn {
+      display: inline-block;
       flex-shrink: 0;
       background: none; border: 1px solid #dde3ee; cursor: pointer;
       color: #8896b0; font-size: 10px;
-      padding: 3px 8px; align-self: flex-start;
-      margin-top: 8px; border-radius: 3px;
+      padding: 6px 8px; border-radius: 3px;
       font-family: 'Merriweather Sans', sans-serif;
       letter-spacing: 0.3px;
       transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
     }
     #fb-expand-btn:hover { color: var(--navy); border-color: #b8cde0; }
     #fb-website {
       display: none; flex-shrink: 0;
-      align-self: flex-start;
-      margin-top: 12px;
-      padding: 7px 14px;
+      padding: 6px 14px;
       background: var(--navy);
       color: white;
       font-family: 'Merriweather Sans', sans-serif;
@@ -394,8 +400,10 @@
           </div>
         </div>
         <p id="fb-bio"></p>
-        <button id="fb-expand-btn" aria-label="Expand bio">&#9660;</button>
-        <a id="fb-website" href="#" target="_blank" rel="noopener noreferrer">Faculty Website</a>
+        <div id="fb-actions">
+          <a id="fb-website" href="#" target="_blank" rel="noopener noreferrer">Faculty Website</a>
+          <button id="fb-expand-btn" aria-label="Expand bio">&#9660;</button>
+        </div>
       </div>
       <div id="paper-detail">
         <div id="pd-title"></div>
@@ -448,7 +456,7 @@
       label: ['Social Media'],
       color: '#0369a1',
       cx: 370, cy: 340,
-      faculty: 'Gonz\u00e1lez-Bail\u00f3n, Freelon, Watts, Metaxa, Roth, Levendusky, Lelkes, Knox',
+      faculty: 'Gonz\u00e1lez-Bail\u00f3n, Freelon, Watts, Metaxa, Roth, Levendusky, Lelkes, Knox, Yoo',
       desc: 'Platforms for user-generated content, real-time information sharing, and algorithmic content distribution. Shape political discourse, misinformation spread, and community formation.',
       icon: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>'
     },
@@ -466,7 +474,7 @@
       label: ['LLMs'],
       color: '#7c3aed',
       cx: 600, cy: 295,
-      faculty: 'Callison-Burch, Metaxa, Yildirim, Patton, Knox, Ungar, Yoo',
+      faculty: 'Callison-Burch, Metaxa, Yildirim, Patton, Knox, Ungar, Yoo, Roth',
       desc: 'Large language models and generative AI systems. Increasingly used for content creation, information retrieval, and automated communication, with growing implications for trust and epistemic autonomy.',
       icon: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>'
     },
@@ -512,6 +520,20 @@
   ];
 
   var PAPERS = [
+    {
+      id: 'yoo',
+      title: 'Efficiency and effectiveness of net neutrality rules in the mobile sector: Relevant developments and state of the empirical literature',
+      paths: [
+        'M 422,98 Q 398,218 378,322'
+      ],
+      bidir: false,
+      faculty: 'Christopher Yoo',
+      school: 'Penn Carey Law School',
+      link: '',
+      linkText: 'driven by ideological views and political considerations rather than economics and evidence',
+      before: 'There is a lack of empirical evidence to support net neutrality regulations, suggesting that policy decisions in Europe and the US about net neutrality \u201chave largely been ',
+      after: '.\u201d'
+    },
     {
       id: 'watts',
       title: 'Unpacking media bias in the growing divide between cable and network news',
@@ -728,6 +750,20 @@
       after: ''
     },
     {
+      id: 'roth',
+      title: 'Learning Human-Perceived Fakeness in AI-Generated Videos via Multimodal LLMs',
+      paths: [
+        'M 516,202 Q 558,248 594,280'
+      ],
+      bidir: false,
+      faculty: 'Dan Roth',
+      school: 'Computer and Information Science',
+      link: 'https://infodem.upenn.edu/research-compendium/#learning-human-perceived-fakeness-in-ai-generated-videos-via',
+      linkText: 'where and why \u2014 the exact visual trace that revealed it',
+      before: 'Roth and colleagues introduce DEEPTRACEREWARD, a benchmark of 4,300 expert annotations across 3,300 AI-generated videos that captures not just whether a video is fake, but ',
+      after: '. While frontier models like GPT-5 exceeded 70% binary accuracy, precisely locating the deepfake trace fell below 36%. Fine-tuning LLaMA\u00a03 on this benchmark reached 70.2% overall \u2014 outperforming GPT-5 by nearly 35 percentage points.'
+    },
+    {
       id: 'ungar',
       title: 'Culturally-Aware Conversations: A Framework & Benchmark for LLMs',
       paths: [
@@ -844,10 +880,8 @@
 
   /* ── faculty without research papers on diagram ─ */
   var FACULTY_ONLY = [
-    { id: 'yoo',          name: 'Christopher Yoo',        school: 'Penn Carey Law School' },
     { id: 'albarracin',   name: 'Dolores Albarrac\u00edn', school: 'Annenberg School' },
     { id: 'freelon',      name: 'Deen Freelon',           school: 'Annenberg School' },
-    { id: 'roth',         name: 'Dan Roth',               school: 'Computer and Information Science' },
     { id: 'lapinski',     name: 'John Lapinski',          school: 'Political Science' },
     { id: 'morse',        name: 'Michael Morse',          school: 'Penn Carey Law School' },
     { id: 'culhane',      name: 'Dennis Culhane',         school: 'School of Social Policy & Practice' }
@@ -1000,11 +1034,11 @@
     var fbBox = document.getElementById('faculty-bio');
     var fbBtn = document.getElementById('fb-expand-btn');
     fbBox.classList.remove('expanded');
-    fbBtn.classList.remove('expanded');
     document.getElementById('left-col').classList.remove('bio-expanded');
+    document.getElementById('fb-actions').classList.remove('visible');
     fbBox.classList.add('visible');
     fbBtn.textContent = '\u25bc Expand bio';
-    fbBtn.style.display = 'inline-block';
+    document.getElementById('fb-actions').classList.add('visible');
   }
 
   /* ── paper detail box ────────────────────────── */
@@ -1015,7 +1049,9 @@
     document.getElementById('pd-title').textContent = p.title || '';
     var desc = document.getElementById('pd-desc');
     desc.textContent = p.before + p.linkText + p.after;
-    document.getElementById('pd-read-btn').href = p.link;
+    var readBtn = document.getElementById('pd-read-btn');
+    if (p.link) { readBtn.href = p.link; readBtn.style.display = 'inline-block'; }
+    else { readBtn.style.display = 'none'; }
     document.getElementById('paper-detail').classList.add('visible');
   }
 
