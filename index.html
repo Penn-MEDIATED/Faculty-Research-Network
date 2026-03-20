@@ -272,15 +272,17 @@
       min-height: 0; overflow: hidden;
     }
     #fb-expand-btn {
-      display: none;           /* shown via JS only when content overflows */
+      display: none;
       flex-shrink: 0;
-      background: none; border: none; cursor: pointer;
-      color: #b0ada6; font-size: 11px;
-      padding: 6px 0 0; align-self: center;
-      transition: transform 0.3s;
-      line-height: 1;
+      background: none; border: 1px solid #dde3ee; cursor: pointer;
+      color: #8896b0; font-size: 10px;
+      padding: 3px 8px; align-self: flex-start;
+      margin-top: 8px; border-radius: 3px;
+      font-family: 'Merriweather Sans', sans-serif;
+      letter-spacing: 0.3px;
+      transition: color 0.15s, border-color 0.15s;
     }
-    #fb-expand-btn.expanded { transform: rotate(180deg); }
+    #fb-expand-btn:hover { color: var(--navy); border-color: #b8cde0; }
     #fb-website {
       display: none; flex-shrink: 0;
       align-self: flex-start;
@@ -299,7 +301,9 @@
     #fb-website.visible { display: inline-block; }
 
     /* standalone paper detail box — bottom of left column */
-    #left-col.bio-expanded #paper-detail { height: 20vh; }
+    #left-col.bio-expanded #paper-detail { height: 18vh; }
+    #left-col.bio-expanded #pd-desc  { font-size: 10.5px; line-height: 1.6; }
+    #left-col.bio-expanded #pd-title { font-size: 11px; margin-bottom: 7px; }
     #paper-detail {
       margin-top: auto;          /* pushes to bottom of flex column */
       height: 40vh;
@@ -330,11 +334,13 @@
       font-size: 13px; font-weight: 700; font-style: italic;
       color: var(--navy); line-height: 1.5;
       margin-bottom: 10px;
+      transition: font-size 0.3s ease, margin-bottom 0.3s ease;
     }
     #pd-desc {
       font-family: 'Merriweather', Georgia, serif;
       font-size: 13px; font-weight: 300; color: var(--text);
       line-height: 1.75; margin: 0;
+      transition: font-size 0.3s ease, line-height 0.3s ease;
     }
     #pd-desc a {
       color: var(--link); font-weight: 700;
@@ -442,7 +448,7 @@
       label: ['Social Media'],
       color: '#0369a1',
       cx: 370, cy: 340,
-      faculty: 'Gonz\u00e1lez-Bail\u00f3n, Freelon, Watts, Metaxa, Roth, Levendusky, Lelkes',
+      faculty: 'Gonz\u00e1lez-Bail\u00f3n, Freelon, Watts, Metaxa, Roth, Levendusky, Lelkes, Knox',
       desc: 'Platforms for user-generated content, real-time information sharing, and algorithmic content distribution. Shape political discourse, misinformation spread, and community formation.',
       icon: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>'
     },
@@ -735,6 +741,20 @@
       linkText: '',
       before: 'In this paper, the authors introduce the \u201cfirst framework and benchmark designed to evaluate LLMs in realistic, multicultural conversational settings.\u201d',
       after: ''
+    },
+    {
+      id: 'knox',
+      title: 'Short-term exposure to filter-bubble recommendation systems has limited polarization effects: Naturalistic experiments on YouTube',
+      paths: [
+        'M 393,350 Q 490,400 583,443'
+      ],
+      bidir: false,
+      faculty: 'Dean Knox',
+      school: 'Wharton School',
+      link: 'https://infodem.upenn.edu/research-compendium/#short-term-exposure-to-filter-bubble-recommendation-systems',
+      linkText: 'most credible test of the phenomenon to date',
+      before: 'This paper provided participants with choices about media consumption, based on actual YouTube recommendations through \u201c9000-person randomized controlled trials\u201d which \u201crepresents the ',
+      after: '.\u201d This paper challenges notions about the potential of platforms like YouTube to radicalize users.'
     }
   ];
 
@@ -829,7 +849,6 @@
     { id: 'freelon',      name: 'Deen Freelon',           school: 'Annenberg School' },
     { id: 'roth',         name: 'Dan Roth',               school: 'Computer and Information Science' },
     { id: 'lapinski',     name: 'John Lapinski',          school: 'Political Science' },
-    { id: 'knox',         name: 'Dean Knox',              school: 'Wharton School' },
     { id: 'morse',        name: 'Michael Morse',          school: 'Penn Carey Law School' },
     { id: 'culhane',      name: 'Dennis Culhane',         school: 'School of Social Policy & Practice' }
   ];
@@ -983,14 +1002,9 @@
     fbBox.classList.remove('expanded');
     fbBtn.classList.remove('expanded');
     document.getElementById('left-col').classList.remove('bio-expanded');
-    fbBtn.style.display = 'none';
     fbBox.classList.add('visible');
-    /* show expand button only if content is taller than the container */
-    setTimeout(function () {
-      if (fbBox.scrollHeight > fbBox.clientHeight + 4) {
-        fbBtn.style.display = 'block';
-      }
-    }, 30);
+    fbBtn.textContent = '\u25bc Expand bio';
+    fbBtn.style.display = 'inline-block';
   }
 
   /* ── paper detail box ────────────────────────── */
@@ -1272,9 +1286,9 @@
   /* ── expand bio button ───────────────────────── */
   document.getElementById('fb-expand-btn').addEventListener('click', function (e) {
     e.stopPropagation(); /* don't bubble to card click */
-    document.getElementById('faculty-bio').classList.toggle('expanded');
+    var expanded = document.getElementById('faculty-bio').classList.toggle('expanded');
     document.getElementById('left-col').classList.toggle('bio-expanded');
-    this.classList.toggle('expanded');
+    this.textContent = expanded ? '\u25b2 Collapse bio' : '\u25bc Expand bio';
   });
 
   /* ── init ────────────────────────────────────── */
