@@ -104,6 +104,21 @@
       padding: 0 0 5px; text-align: center; flex-shrink: 0;
     }
     #auto-cycle-msg.hidden { display: none; }
+    #diagram-callout {
+      flex-shrink: 0;
+      margin: 0 0 6px;
+      padding: 7px 13px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 3px solid var(--gold);
+      border-radius: 4px;
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 11px; font-weight: 300; font-style: italic;
+      color: #78716c;
+      line-height: 1.6;
+      max-width: 560px;
+      text-align: center;
+    }
 
     /* ── RIGHT PANEL ─────────────────────────── */
     #panel {
@@ -415,6 +430,7 @@
     <!-- DIAGRAM -->
     <div id="svg-area">
       <div id="auto-cycle-msg"></div>
+      <div id="diagram-callout">Each set of arrows represents the flow of information studied in one research paper from an affiliated faculty.</div>
       <div id="svg-wrap"></div>
     </div>
 
