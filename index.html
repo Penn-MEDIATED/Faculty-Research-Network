@@ -98,27 +98,29 @@
     #svg-wrap { width: 100%; }
     #svg-wrap svg { display: block; width: 100%; height: auto; }
     #svg-area { flex-direction: column; }
-    #auto-cycle-msg {
-      font-family: 'Merriweather Sans', sans-serif;
-      font-size: 10px; color: #8896b0; letter-spacing: 0.3px;
-      padding: 0 0 5px; text-align: center; flex-shrink: 0;
-    }
-    #auto-cycle-msg.hidden { display: none; }
-    #diagram-callout {
+    #diagram-footer {
       flex-shrink: 0;
-      margin: 0 0 6px;
+      margin-top: 6px;
       padding: 7px 13px;
       background: #fff7ed;
       border: 1px solid #fed7aa;
       border-left: 3px solid var(--orange);
       border-radius: 4px;
-      font-family: 'Merriweather', Georgia, serif;
-      font-size: 11px; font-weight: 300; font-style: italic;
-      color: #78716c;
-      line-height: 1.6;
       max-width: 560px;
+      width: 100%;
       text-align: center;
     }
+    #diagram-callout {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 11px; font-weight: 300; font-style: italic;
+      color: #78716c; line-height: 1.6;
+    }
+    #auto-cycle-msg {
+      font-family: 'Merriweather Sans', sans-serif;
+      font-size: 10px; color: #8896b0; letter-spacing: 0.3px;
+      margin-top: 3px;
+    }
+    #auto-cycle-msg.hidden { display: none; }
 
     /* ── RIGHT PANEL ─────────────────────────── */
     #panel {
@@ -136,7 +138,7 @@
     }
     .panel-head-lbl {
       font-family: 'Merriweather Sans', sans-serif;
-      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.7px; color: var(--navy);
       border-bottom: 2px solid var(--gold);
       padding-bottom: 2px;
@@ -428,9 +430,11 @@
 
     <!-- DIAGRAM -->
     <div id="svg-area">
-      <div id="diagram-callout">Each set of arrows represents the flow of information studied in one research paper from an affiliated faculty.</div>
-      <div id="auto-cycle-msg"></div>
       <div id="svg-wrap"></div>
+      <div id="diagram-footer">
+        <div id="diagram-callout">Each set of arrows represents the flow of information studied in one research paper from an affiliated faculty.</div>
+        <div id="auto-cycle-msg"></div>
+      </div>
     </div>
 
     <!-- RIGHT PANEL -->
@@ -1010,10 +1014,10 @@
     s += '<defs>';
     s += '<marker id="tip" viewBox="0 0 10 10" refX="9" refY="5"' +
          ' markerWidth="6" markerHeight="6" orient="auto">' +
-         '<path d="M 0 1 L 9 5 L 0 9 z" fill="#94a3b8"/></marker>';
+         '<path d="M 0 1 L 9 5 L 0 9 z" fill="#c2ccd6"/></marker>';
     s += '<marker id="tip-bi" viewBox="0 0 10 10" refX="9" refY="5"' +
          ' markerWidth="6" markerHeight="6" orient="auto-start-reverse">' +
-         '<path d="M 0 1 L 9 5 L 0 9 z" fill="#94a3b8"/></marker>';
+         '<path d="M 0 1 L 9 5 L 0 9 z" fill="#c2ccd6"/></marker>';
     s += '<marker id="tip-hover" viewBox="0 0 10 10" refX="9" refY="5"' +
          ' markerWidth="6" markerHeight="6" orient="auto">' +
          '<path d="M 0 1 L 9 5 L 0 9 z" fill="rgb(204,85,0)"/></marker>';
@@ -1028,8 +1032,8 @@
         s += '<g class="arrow-g" data-arrow="' + p.id + '">';
         s += '<path d="' + pathD + '" fill="none" stroke="transparent" stroke-width="12"/>';
         s += '<path class="arrow-vis" id="av-' + p.id + '-' + idx + '" d="' + pathD +
-             '" fill="none" stroke="#94a3b8" stroke-width="2.2"' +
-             ' stroke-dasharray="6,4" opacity="0.65"' +
+             '" fill="none" stroke="#c2ccd6" stroke-width="2.2"' +
+             ' stroke-dasharray="6,4" opacity="0.45"' +
              ' marker-end="url(#tip)"' + ms + '/>';
         s += '</g>';
       });
@@ -1082,10 +1086,10 @@
   /* ── helpers: reset arrow styles for a paper ─── */
   function resetArrows(id) {
     document.querySelectorAll('[id^="av-' + id + '-"]').forEach(function (vis) {
-      vis.setAttribute('stroke', '#94a3b8');
+      vis.setAttribute('stroke', '#c2ccd6');
       vis.setAttribute('stroke-width', '2.2');
       vis.setAttribute('stroke-dasharray', '6,4');
-      vis.setAttribute('opacity', '0.65');
+      vis.setAttribute('opacity', '0.45');
       vis.setAttribute('marker-end', 'url(#tip)');
       if (vis.hasAttribute('marker-start')) vis.setAttribute('marker-start', 'url(#tip-bi)');
     });
