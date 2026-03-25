@@ -1058,7 +1058,8 @@
 
     /* ── Culhane data-system icon (near Governments, grey until selected) ── */
     s += '<g id="culhane-data-icon" fill="none" stroke="#b8c0cc" stroke-width="1.8"' +
-         ' stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none">';
+         ' stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer">';
+    s += '<rect x="454" y="38" width="40" height="40" fill="transparent" stroke="none"/>';
     s += '<svg x="458" y="42" width="32" height="32" viewBox="0 0 24 24">';
     s += '<ellipse cx="12" cy="5" rx="9" ry="3"/>';
     s += '<path d="M3 5v14a9 3 0 0018 0V5"/>';
@@ -1090,7 +1091,7 @@
     });
     if (id === 'culhane') {
       var ci = document.getElementById('culhane-data-icon');
-      if (ci) ci.setAttribute('opacity', '0');
+      if (ci) ci.setAttribute('stroke', '#b8c0cc');
     }
   }
 
@@ -1176,7 +1177,7 @@
     });
     /* show/hide Culhane's data-system icon */
     var ci = document.getElementById('culhane-data-icon');
-    if (ci) ci.setAttribute('opacity', id === 'culhane' ? '1' : '0');
+    if (ci) ci.setAttribute('stroke', id === 'culhane' ? 'rgb(204,85,0)' : '#b8c0cc');
     showDetail(id);
     showBio(id);
   }
@@ -1420,6 +1421,14 @@
       g.addEventListener('mouseleave', restoreLockedState);
       g.addEventListener('click',      function () { userLockPaper(arrowId); });
     })(arrowGroups[j]);
+  }
+
+  /* Culhane data-system icon listeners */
+  var culhaneIcon = document.getElementById('culhane-data-icon');
+  if (culhaneIcon) {
+    culhaneIcon.addEventListener('mouseenter', function () { activatePaper('culhane'); });
+    culhaneIcon.addEventListener('mouseleave', restoreLockedState);
+    culhaneIcon.addEventListener('click',      function () { userLockPaper('culhane'); });
   }
 
   /* ── expand bio button ───────────────────────── */
