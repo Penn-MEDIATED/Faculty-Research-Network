@@ -246,8 +246,8 @@
     /* faculty bio box — top of left column */
     #faculty-bio {
       flex: 1;
-      min-height: 0;                 /* allows flex item to shrink below content size */
-      overflow: hidden;              /* clips bio at the available height — no scrollbar */
+      min-height: 0;
+      overflow-y: auto;
       background: white;
       border-left: 3px solid var(--navy);
       border-bottom: 1.5px solid var(--border);
@@ -258,7 +258,6 @@
       flex-direction: column;
     }
     #faculty-bio.visible { display: flex; }
-    #faculty-bio.expanded { overflow-y: auto; }
     #fb-header {
       display: flex; align-items: flex-start;
       gap: 12px; margin-bottom: 12px; flex-shrink: 0;
@@ -286,7 +285,6 @@
       font-family: 'Merriweather', Georgia, serif;
       font-size: 13px; font-weight: 300; color: var(--text);
       line-height: 1.75; margin: 0;
-      min-height: 0; overflow: hidden;
     }
     #fb-actions {
       display: none;
@@ -296,19 +294,7 @@
       margin-top: 12px;
     }
     #fb-actions.visible { display: flex; }
-    #fb-expand-btn {
-      display: inline-block;
-      flex-shrink: 0;
-      background: none; border: 1px solid #dde3ee; cursor: pointer;
-      color: #8896b0; font-size: 10px;
-      padding: 6px 8px; border-radius: 3px;
-      font-family: 'Merriweather Sans', sans-serif;
-      letter-spacing: 0.3px;
-      transition: color 0.15s, border-color 0.15s;
-      white-space: nowrap;
-    }
-    #fb-expand-btn:hover { color: var(--navy); border-color: #b8cde0; }
-    #fb-website {
+#fb-website {
       display: none; flex-shrink: 0;
       padding: 6px 14px;
       background: var(--navy);
@@ -324,13 +310,9 @@
     #fb-website.visible { display: inline-block; }
 
     /* standalone paper detail box — bottom of left column */
-    #left-col.bio-expanded #paper-detail { height: 18vh; }
-    #left-col.bio-expanded #pd-desc  { font-size: 11.5px; line-height: 1.6; }
-    #left-col.bio-expanded #pd-title { font-size: 12px; margin-bottom: 7px; }
     #paper-detail {
       margin-top: auto;          /* pushes to bottom of flex column */
       height: 40vh;
-      transition: height 0.35s ease;
       overflow-y: auto;
       background: white;
       border-left: 3px solid var(--orange);
@@ -418,7 +400,6 @@
         <p id="fb-bio"></p>
         <div id="fb-actions">
           <a id="fb-website" href="#" target="_blank" rel="noopener noreferrer">Faculty Website</a>
-          <button id="fb-expand-btn" aria-label="Expand bio">&#9660;</button>
         </div>
       </div>
       <div id="paper-detail">
@@ -1133,14 +1114,7 @@
       fbLink.href = '#';
       fbLink.classList.remove('visible');
     }
-    /* reset expand state whenever a new bio is shown */
-    var fbBox = document.getElementById('faculty-bio');
-    var fbBtn = document.getElementById('fb-expand-btn');
-    fbBox.classList.remove('expanded');
-    document.getElementById('left-col').classList.remove('bio-expanded');
-    document.getElementById('fb-actions').classList.remove('visible');
-    fbBox.classList.add('visible');
-    fbBtn.textContent = '\u25bc Expand bio';
+    document.getElementById('faculty-bio').classList.add('visible');
     document.getElementById('fb-actions').classList.add('visible');
   }
 
@@ -1433,13 +1407,6 @@
     culhaneIcon.addEventListener('click',      function () { userLockPaper('culhane'); });
   }
 
-  /* ── expand bio button ───────────────────────── */
-  document.getElementById('fb-expand-btn').addEventListener('click', function (e) {
-    e.stopPropagation(); /* don't bubble to card click */
-    var expanded = document.getElementById('faculty-bio').classList.toggle('expanded');
-    document.getElementById('left-col').classList.toggle('bio-expanded');
-    this.textContent = expanded ? '\u25b2 Collapse bio' : '\u25bc Expand bio';
-  });
 
   /* ── init ────────────────────────────────────── */
   renderPaperCards();
