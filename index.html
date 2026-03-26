@@ -1416,5 +1416,17 @@
 
 })();
 </script>
+
+<script>
+  /* Auto-resize: sends page height to parent so WordPress can resize the iframe accordingly */
+  function sendHeight() {
+    var height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    window.parent.postMessage({ frameHeight: height }, "*");
+  }
+  window.addEventListener("load", sendHeight);
+  window.addEventListener("resize", sendHeight);
+  var _heightObserver = new ResizeObserver(sendHeight);
+  _heightObserver.observe(document.body);
+</script>
 </body>
 </html>
