@@ -201,7 +201,14 @@
     #paper-cards::-webkit-scrollbar { width: 3px; }
     #paper-cards::-webkit-scrollbar-thumb { background: #dde3ee; border-radius: 3px; }
 
-    .arrow-g { cursor: pointer; }
+    /* touch: cursor:pointer in a CSS rule (not just inline) makes SVG <g> elements
+       tappable on iOS Safari; touch-action:manipulation removes the 300ms tap delay */
+    .arrow-g, .actor-g {
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .paper-card { touch-action: manipulation; }
+    #culhane-data-icon { touch-action: manipulation; }
 
     .paper-card {
       border-radius: 6px; border: 1.5px solid var(--border);
@@ -427,8 +434,6 @@
       /* Hide newsletter on small phones — saves significant vertical space */
       .newsletter-box { display: none; }
 
-      /* Single-column faculty cards on narrow phones */
-      #paper-cards { grid-template-columns: 1fr; }
 
       .card-name   { font-size: 12px; }
       #fb-bio      { font-size: 12px; }
