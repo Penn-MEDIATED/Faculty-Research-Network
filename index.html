@@ -373,6 +373,68 @@
     }
     #pd-read-btn:hover { background: var(--link); }
 
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 820px) {
+      /* Allow the full page to scroll instead of being locked to 100vh */
+      html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
+      #page      { height: auto; min-height: 100vh; }
+
+      /* Header: stack title + newsletter vertically */
+      #hdr {
+        flex-direction: column;
+        padding: 12px 16px 10px;
+        gap: 10px;
+      }
+      #hdr h1          { font-size: 21px; }
+      #hdr p.hdr-desc  { font-size: 14px; }
+      .newsletter-box  {
+        width: 100%;
+        border-top: 1px solid var(--border);
+        padding-top: 10px;
+      }
+      .newsletter-box p, .newsletter-box li { font-size: 13px; }
+
+      /* Main: single column, content flows down */
+      #main { flex-direction: column; overflow: visible; height: auto; }
+
+      /* Order: diagram → faculty cards → bio + paper detail */
+      #svg-area  { order: 1; width: 100%; flex: none; padding: 6px 4px 4px;
+                   align-items: flex-start; justify-content: flex-start; }
+      #panel     { order: 2; width: 100%; flex: none; height: auto;
+                   border-left: none; border-top: 1px solid var(--border);
+                   overflow: visible; }
+      #left-col  { order: 3; width: 100%; flex: none; border-right: none;
+                   border-top: 1px solid var(--border);
+                   overflow-y: visible; min-height: 0; }
+
+      /* Footer: remove max-width cap */
+      #diagram-footer { max-width: 100%; }
+
+      /* Faculty cards: 2-column, natural height */
+      #paper-cards {
+        grid-template-columns: 1fr 1fr;
+        flex: none; height: auto; overflow-y: visible;
+        padding: 8px;
+      }
+
+      /* Paper detail: grow to content height */
+      #paper-detail { height: auto; min-height: 0; }
+    }
+
+    @media (max-width: 540px) {
+      #hdr h1         { font-size: 18px; }
+      #hdr p.hdr-desc { font-size: 13px; }
+      /* Hide newsletter on small phones — saves significant vertical space */
+      .newsletter-box { display: none; }
+
+      /* Single-column faculty cards on narrow phones */
+      #paper-cards { grid-template-columns: 1fr; }
+
+      .card-name   { font-size: 12px; }
+      #fb-bio      { font-size: 12px; }
+      #pd-desc     { font-size: 13px; }
+    }
+
   </style>
 </head>
 <body>
@@ -1315,8 +1377,19 @@
   }
 
   /* user-initiated lock — stops auto-cycle */
-  function userLockPaper(id)   { stopAutoCycle(); lockPaper(id); }
-  function userLockFaculty(id) { stopAutoCycle(); lockFaculty(id); }
+  /* ── mobile: scroll bio/detail into view after a click ── */
+  function scrollToBio() {
+    if (window.innerWidth > 820) return; /* desktop: panels are always visible */
+    var target = document.getElementById('faculty-bio');
+    if (!target) return;
+    /* small delay so the bio has time to become visible before scrolling */
+    setTimeout(function () {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+
+  function userLockPaper(id)   { stopAutoCycle(); lockPaper(id);   scrollToBio(); }
+  function userLockFaculty(id) { stopAutoCycle(); lockFaculty(id); scrollToBio(); }
 
   /* ── faculty role labels ─────────────────────── */
   var ROLES = {
