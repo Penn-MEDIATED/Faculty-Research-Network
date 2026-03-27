@@ -1050,6 +1050,27 @@
     s += '</svg>';
     s += '</g>';
 
+    /* ── Legend (bottom-left corner) ── */
+    s += '<g id="diagram-legend">';
+    s += '<rect x="44" y="514" width="218" height="50" rx="4"' +
+         ' fill="white" fill-opacity="0.92" stroke="#dde3ed" stroke-width="1"/>';
+    /* Row 1: person icon + label */
+    s += '<svg x="52" y="521" width="14" height="14" viewBox="0 0 24 24"' +
+         ' fill="none" stroke="#0e7490" stroke-width="2"' +
+         ' stroke-linecap="round" stroke-linejoin="round">';
+    s += '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>';
+    s += '<circle cx="12" cy="7" r="4"/>';
+    s += '</svg>';
+    s += '<text x="71" y="531" font-size="9.5" fill="#475569"' +
+         ' font-family="\'Merriweather Sans\',sans-serif">Individual / Member of the Public</text>';
+    /* Row 2: orange dashed arrow + label */
+    s += '<line x1="52" y1="549" x2="68" y2="549"' +
+         ' stroke="rgb(204,85,0)" stroke-width="2" stroke-dasharray="4,2.5"' +
+         ' marker-end="url(#tip-hover)"/>';
+    s += '<text x="74" y="553" font-size="9.5" fill="#475569"' +
+         ' font-family="\'Merriweather Sans\',sans-serif">Flow of Information Studied</text>';
+    s += '</g>';
+
     s += '</svg>';
     return s;
   }
