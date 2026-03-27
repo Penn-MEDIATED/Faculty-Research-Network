@@ -121,6 +121,7 @@
       margin-top: 3px;
     }
     #auto-cycle-msg.hidden { display: none; }
+    #diagram-footer.hidden { display: none; }
 
     /* ── RIGHT PANEL ─────────────────────────── */
     #panel {
@@ -324,6 +325,12 @@
       display: none;
     }
     #paper-detail.visible { display: block; }
+    @keyframes panelPulse {
+      0%   { box-shadow: 0 0 0 0px rgba(204,85,0,0),    0 -6px 22px rgba(1,31,91,.08); }
+      35%  { box-shadow: 0 0 0 3px  rgba(204,85,0,0.6), 0 -6px 22px rgba(1,31,91,.08); }
+      100% { box-shadow: 0 0 0 0px rgba(204,85,0,0),    0 -6px 22px rgba(1,31,91,.08); }
+    }
+    #paper-detail.pulsing { animation: panelPulse 0.75s ease-out forwards; }
     #pd-faculty {
       font-family: 'Merriweather Sans', sans-serif;
       font-weight: 700; font-size: 15px; color: var(--navy);
@@ -1080,12 +1087,22 @@
   var currentPaper  = null;   // paper id currently previewed (hover)
   var lockedPaper   = null;   // paper id locked by click
   var lockedFaculty = null;   // faculty id locked by click
+  var arrowTimers   = {};     // pending marker-restore timers keyed by paper id
 
   document.getElementById('svg-wrap').innerHTML = buildSVG();
 
   /* ── helpers: reset arrow styles for a paper ─── */
   function resetArrows(id) {
+    /* cancel any pending marker-restore timer for this paper */
+    if (arrowTimers[id]) {
+      arrowTimers[id].forEach(clearTimeout);
+      delete arrowTimers[id];
+    }
     document.querySelectorAll('[id^="av-' + id + '-"]').forEach(function (vis) {
+      /* clear draw-on animation inline styles first */
+      vis.style.transition = '';
+      vis.style.strokeDasharray = '';
+      vis.style.strokeDashoffset = '';
       vis.setAttribute('stroke', '#c2ccd6');
       vis.setAttribute('stroke-width', '2.2');
       vis.setAttribute('stroke-dasharray', '6,4');
@@ -1150,7 +1167,12 @@
     var readBtn = document.getElementById('pd-read-btn');
     if (p.link) { readBtn.href = p.link; readBtn.style.display = 'inline-block'; }
     else { readBtn.style.display = 'none'; }
-    document.getElementById('paper-detail').classList.add('visible');
+    var pd = document.getElementById('paper-detail');
+    pd.classList.add('visible');
+    /* trigger border pulse (Option 3) */
+    pd.classList.remove('pulsing');
+    pd.offsetWidth; /* force reflow so animation restarts */
+    pd.classList.add('pulsing');
   }
 
   /* ── activate a paper (sticky — stays until replaced) ── */
@@ -1164,13 +1186,31 @@
     currentPaper = id;
     var card = document.getElementById('card-' + id);
     if (card) card.classList.add('active');
+    /* cancel any stale timers from a previous activation of this paper */
+    if (arrowTimers[id]) { arrowTimers[id].forEach(clearTimeout); }
+    arrowTimers[id] = [];
     document.querySelectorAll('[id^="av-' + id + '-"]').forEach(function (vis) {
+      var hasBidir = vis.hasAttribute('marker-start');
       vis.setAttribute('stroke', 'rgb(204,85,0)');
       vis.setAttribute('stroke-width', '2.9');
       vis.removeAttribute('stroke-dasharray');
       vis.setAttribute('opacity', '1');
-      vis.setAttribute('marker-end', 'url(#tip-hover)');
-      if (vis.hasAttribute('marker-start')) vis.setAttribute('marker-start', 'url(#tip-bi-hover)');
+      /* hide markers during draw — reveal after animation completes */
+      vis.removeAttribute('marker-end');
+      if (hasBidir) vis.removeAttribute('marker-start');
+      /* draw-on animation (Option 1) */
+      var len = vis.getTotalLength ? vis.getTotalLength() : 300;
+      vis.style.transition = 'none';
+      vis.style.strokeDasharray = len + ' ' + len;
+      vis.style.strokeDashoffset = len;
+      vis.getBoundingClientRect(); /* force reflow */
+      vis.style.transition = 'stroke-dashoffset 0.6s ease';
+      vis.style.strokeDashoffset = 0;
+      /* restore markers once line finishes drawing — track timer so it can be cancelled */
+      arrowTimers[id].push(setTimeout(function () {
+        vis.setAttribute('marker-end', 'url(#tip-hover)');
+        if (hasBidir) vis.setAttribute('marker-start', 'url(#tip-bi-hover)');
+      }, 620));
     });
     /* show/hide Culhane's data-system icon */
     var ci = document.getElementById('culhane-data-icon');
@@ -1247,6 +1287,8 @@
     if (autoCycleInterval) { clearInterval(autoCycleInterval); autoCycleInterval = null; }
     var msg = document.getElementById('auto-cycle-msg');
     if (msg) msg.classList.add('hidden');
+    var footer = document.getElementById('diagram-footer');
+    if (footer) footer.classList.add('hidden');
   }
 
   function pickRandomFaculty() {
