@@ -450,7 +450,7 @@
   <div id="hdr">
     <div id="hdr-left">
       <h1>Penn MEDIATED's Affiliated Faculty</h1>
-      <p class="hdr-desc">Our 24 affiliated faculty are distinguished by their rigorous empirical and computational research that advances the collective understanding of the information ecosystem. Explore the visualization  to see research papers that are representative of how our faculty study the media organizations, technology platforms, governments, elites, and everyday people that make up the information ecosystem.</p>
+      <p class="hdr-desc">Our 25 affiliated faculty are distinguished by their rigorous empirical and computational research that advances the collective understanding of the information ecosystem. Explore the visualization  to see research papers that are representative of how our faculty study the media organizations, technology platforms, governments, elites, and everyday people that make up the information ecosystem.</p>
     </div>
     <div class="newsletter-box">
       <h3>Center Newsletter</h3>
@@ -970,7 +970,8 @@
     morse:          'https://www.law.upenn.edu/faculty/morsem',
     mutz:           'https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/standing-faculty/diana-mutz',
     roth:           'https://www.cis.upenn.edu/~danroth/',
-    culhane:        'https://sp2.upenn.edu/person/dennis-culhane/'
+    culhane:        'https://sp2.upenn.edu/person/dennis-culhane/',
+    gutmann:        'https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/standing-faculty/amy-gutmann'
   };
 
   /* ── faculty biographies ────────────────────── */
@@ -998,7 +999,8 @@
     melumad:       'Shiri Melumad is an Associate Professor of Marketing at the Wharton School, where she studies the consumer psychology of technology usage, new media and user-generated content, and digital marketing. One major focus area is on how people generate and consume online content, including recent work <a href="https://www.researchgate.net/publication/388244016_Experimental_Evidence_of_the_Effects_of_Large_Language_Models_versus_Web_Search_on_Depth_of_Learning" target="_blank" rel="noopener noreferrer">comparing knowledge resulting from search engines versus generative AI</a> and how <a href="https://journals.sagepub.com/doi/10.1177/00222437241280068" target="_blank" rel="noopener noreferrer">voice technologies alter consumer search</a>. Other research examines how technology affects people psychologically, such as how reading vs. listening to news changes our interpretation of it.',
     morse:         'Michael Morse is an Assistant Professor of Law with a secondary appointment in the political sciences department. He studies voting rights, election administration, and the criminal justice system; his work combines empirical methods and novel data with traditional legal scholarship. Michael\u2019s recent publications focus on the <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5176240" target="_blank" rel="noopener noreferrer">privacy-transparency trade-off</a> inherent in all election reporting and <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4396446" target="_blank" rel="noopener noreferrer">the maintenance of voter registration lists</a>.',
     santoro:       'Erik Santoro is an Assistant Professor of Operations, Information and Decisions at the Wharton School. His research examines the role of conversation in bridging societal divides. Erik\u2019s recent work explores the impact of <a href="https://www.pnas.org/doi/10.1073/pnas.2421982122" target="_blank" rel="noopener noreferrer">listening</a> on the efficacy of persuasive appeals during political disagreements and how <a href="https://www.science.org/doi/10.1126/sciadv.abn5515" target="_blank" rel="noopener noreferrer">dialogue between outpartisans</a> can reduce affective polarization.',
-    culhane:       'Dennis Culhane is the Dana and Andrew Stone Professor of Social Policy at the School of Social Policy and Practice as well as Co-founder and Faculty Director of the Actionable Intelligence for Social Policy (AISP). He is a highly regarded expert in developing critical data infrastructure, and his work has resulted in federal legislation requiring all cities and states to develop administrative data systems. Dennis has recently written on the role of <a href="https://aisp.upenn.edu/resource-article/building-sustaining-state-data-integration-efforts-legislation-funding-and-strategies/" target="_blank" rel="noopener noreferrer">legislation and executive action</a> in promoting cross-agency data sharing for public good.'
+    culhane:       'Dennis Culhane is the Dana and Andrew Stone Professor of Social Policy at the School of Social Policy and Practice as well as Co-founder and Faculty Director of the Actionable Intelligence for Social Policy (AISP). He is a highly regarded expert in developing critical data infrastructure, and his work has resulted in federal legislation requiring all cities and states to develop administrative data systems. Dennis has recently written on the role of <a href="https://aisp.upenn.edu/resource-article/building-sustaining-state-data-integration-efforts-legislation-funding-and-strategies/" target="_blank" rel="noopener noreferrer">legislation and executive action</a> in promoting cross-agency data sharing for public good.',
+    gutmann:       'Amy Gutmann is the Christopher H. Browne Distinguished Professor of Political Science at the University of Pennsylvania, where she also served as University President from 2004 to 2022. A leading scholar of deliberative democracy, she has written extensively on the ethics of education, democratic governance, and the role of institutions in sustaining public trust. Her influential books include <em>Democratic Education</em> and <em>Why Deliberative Democracy?</em> (with Dennis Thompson). From 2022 to 2025, she served as the U.S. Ambassador to Germany.'
   };
 
   /* ── faculty headshot photos ────────────────────── */
@@ -1030,14 +1032,16 @@
   };
 
   /* ── faculty without research papers on diagram ─ */
-  var FACULTY_ONLY = [];
+  var FACULTY_ONLY = [
+    { id: 'gutmann', name: 'Amy Gutmann', school: 'Political Science' }
+  ];
 
   /* ── custom card display order ──────────────── */
   var CARD_ORDER = [
-    'watts','yoo','lelkes','halljamieson','hopkins','patton',
-    'metaxa','gonzalezbailon','callisonburch','albarracin','levendusky','freelon',
-    'yildirim','falk','santoro','mutz','ungar','knox',
-    'miller','lapinski','melumad','morse','roth','culhane'
+    'watts','yoo','gutmann','lelkes','halljamieson','hopkins',
+    'patton','metaxa','gonzalezbailon','callisonburch','albarracin','levendusky',
+    'freelon','yildirim','falk','santoro','mutz','ungar',
+    'knox','miller','lapinski','melumad','morse','roth','culhane'
   ];
 
   /* ── helpers ─────────────────────────────────── */
@@ -1407,7 +1411,8 @@
     hopkins:        'Faculty Advisor',
     patton:         'Faculty Advisor',
     metaxa:         'Faculty Advisor',
-    gonzalezbailon: 'Faculty Advisor'
+    gonzalezbailon: 'Faculty Advisor',
+    gutmann:        'Faculty Advisor'
   };
   function getRole(id) { return ROLES[id] || 'Affiliated Faculty'; }
 
@@ -1536,7 +1541,7 @@
   for (var j = 0; j < arrowGroups.length; j++) {
     (function (g) {
       var arrowId = g.getAttribute('data-arrow');
-      g.addEventListener('mouseenter', function () { activatePaper(arrowId); });
+      g.addEventListener('mouseenter', function () { stopAutoCycle(); activatePaper(arrowId); });
       g.addEventListener('mouseleave', restoreLockedState);
       g.addEventListener('click',      function () { userLockPaper(arrowId); });
     })(arrowGroups[j]);
@@ -1545,7 +1550,7 @@
   /* Culhane data-system icon listeners */
   var culhaneIcon = document.getElementById('culhane-data-icon');
   if (culhaneIcon) {
-    culhaneIcon.addEventListener('mouseenter', function () { activatePaper('culhane'); });
+    culhaneIcon.addEventListener('mouseenter', function () { stopAutoCycle(); activatePaper('culhane'); });
     culhaneIcon.addEventListener('mouseleave', restoreLockedState);
     culhaneIcon.addEventListener('click',      function () { userLockPaper('culhane'); });
   }
